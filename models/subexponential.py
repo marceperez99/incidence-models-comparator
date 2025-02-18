@@ -1,8 +1,8 @@
 import numpy as np
 from sklearn.linear_model import LinearRegression
-from sklearn.metrics import  mean_absolute_percentage_error
 import functools
 import matplotlib.pyplot as plt
+import utils
 
 def subexponential_model(dataset, training_window, prediction_window, plot=False):
     dataset = dataset.copy()
@@ -36,7 +36,7 @@ def subexponential_model(dataset, training_window, prediction_window, plot=False
         plt.plot(np.exp(predicted_values), label="Predicted")
         plt.show()
 
-    return training_window * mean_absolute_percentage_error(predicted_values, observed_values) / (prediction_window**2)
+    return utils.loss_function(predicted_values, observed_values)
 
 def subexponential_evaluator(dataset):
 

@@ -4,6 +4,7 @@ import pandas as pd
 NUMBER_OF_BITS = 7
 C = 1.5
 
+
 def decode(individual):
     return tuple([int(individual[i:i + NUMBER_OF_BITS], 2) for i in range(0, len(individual), NUMBER_OF_BITS)])
 
@@ -72,10 +73,9 @@ class GeneticAlgorithm:
             best_individual = self.population[-1]
 
             ind = decode(best_individual)
-            if generation % 1 == 0:
-                print(
-                    f'Best of generation {generation}, training window {ind[0]}, prediction window {ind[1]}, mean MAPE',
-                    self.eval_function(best_individual))
+
+            print(f'Best of generation {generation}, training window {ind[0]}, prediction window {ind[1]}, mean MAPE',
+                  self.eval_function(best_individual))
 
         # Devuelve el mejor individuo encontrado
         best_individual = min(self.population, key=self.eval_function)

@@ -1,10 +1,10 @@
-import random
-import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_absolute_error, mean_squared_error, mean_absolute_percentage_error
 import functools
 import matplotlib.pyplot as plt
+
+import utils
+
 
 def exponential_model(dataset, training_window, prediction_window, plot=False):
     dataset = dataset.copy()
@@ -38,14 +38,20 @@ def exponential_model(dataset, training_window, prediction_window, plot=False):
         plt.plot(np.exp(predicted_values), label="Predicted")
         plt.show()
 
-    return mean_absolute_percentage_error(predicted_values, observed_values)
+    return utils.loss_function(predicted_values, observed_values)
+
 
 def exponential_evaluator(dataset):
-
     @functools.cache
     def exponential_evaluation(individual):
         if individual[0] <= 1: return float('inf')
         if individual[1] == 0 or individual[1] > 5: return float('inf')
-        return exponential_model(dataset, individual[0], individual[1])* individual[0] / individual[1]
+        loss = exponential_model(dataset, individual[0], individual[1])
+        utils.log_experiment({
+            'training_window': individual[0],
+            'prediction_window': individual[1]
+        }, loss, 'Exponential',
+            './results.csv')
+        return loss
 
     return exponential_evaluation
