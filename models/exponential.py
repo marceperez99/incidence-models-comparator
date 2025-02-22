@@ -7,6 +7,7 @@ import utils
 
 
 def exponential_model(dataset, training_window, prediction_window, plot=False):
+
     dataset = dataset.copy()
     dataset['target'] = dataset['i_cases']
 

@@ -44,6 +44,13 @@ def subexponential_evaluator(dataset):
     def exponential_evaluation(individual):
         if individual[0] <= 1: return float('inf')
         if individual[1] == 0 or individual[1] > 5: return float('inf')
-        return subexponential_model(dataset, individual[0], individual[1])* individual[0] / individual[1]
+
+        loss = subexponential_model(dataset, individual[0], individual[1])
+        utils.log_experiment({
+            'training_window': individual[0],
+            'prediction_window': individual[1]
+        }, loss, 'Sub-Exponential',
+            './results.csv')
+        return loss
 
     return exponential_evaluation

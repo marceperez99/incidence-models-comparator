@@ -1,5 +1,5 @@
 import keras
-from sklearn.preprocessing import OneHotEncoder, LabelEncoder, MinMaxScaler
+from sklearn.preprocessing import OneHotEncoder,  MinMaxScaler
 from sklearn.model_selection import train_test_split
 import functools
 import matplotlib.pyplot as plt
@@ -91,8 +91,3 @@ def ann_evaluator(dataset):
         return ann_model(dataset, individual[0], individual[1])
 
     return ann_evaluation
-
-
-dataset = utils.get_dataset('../case_data_full.csv')
-
-print(ann_model(dataset, 10, 4, plot=True))

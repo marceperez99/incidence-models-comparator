@@ -72,10 +72,9 @@ class GeneticAlgorithm:
             assert not best_individual or self.eval_function(best_individual) >= self.eval_function(self.population[-1])
             best_individual = self.population[-1]
 
-            ind = decode(best_individual)
 
-            print(f'Best of generation {generation}, training window {ind[0]}, prediction window {ind[1]}, mean MAPE',
-                  self.eval_function(best_individual))
+
+
 
         # Devuelve el mejor individuo encontrado
         best_individual = min(self.population, key=self.eval_function)
