@@ -1,6 +1,6 @@
 import numpy as np
 import sys
-
+from models.autoarima import autoarima_model
 from evolutionary_algorithm import GeneticAlgorithm
 from models.subexponential import subexponential_evaluator
 from models.exponential import exponential_evaluator
@@ -53,5 +53,8 @@ elif args[1] == 'random_forest':
         get_initial_population_random_forest)
     best_individual, error = genetic_agent.run()
     print(best_individual, error)
+elif args[1] == 'arima':
+    loss = autoarima_model(dataset, 4)
+
 else:
     print('Invalid model')

@@ -4,9 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-scikit-learn = "*"
-matplotlib = "*"
-tensorflow = "*"
+scikit-learn = "1.6.1"
+matplotlib = "3.10.0"
+tensorflow = "2.18.0"
+pmdarima = "2.0.4"
+numpy = "==1.26.4"
 pandas = "*"
 
 [dev-packages]
