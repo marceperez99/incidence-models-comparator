@@ -71,6 +71,7 @@ class GeneticAlgorithm:
 
             assert not best_individual or self.eval_function(best_individual) >= self.eval_function(self.population[-1])
             best_individual = self.population[-1]
+            # print(f'best in generation {generation}', decode(best_individual), self.eval_function(best_individual))
 
 
 
