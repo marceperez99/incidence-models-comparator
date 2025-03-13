@@ -65,6 +65,8 @@ def svr_evaluator(dataset):
             return float('inf')
         if individual[SVRParameter.PREDICTION_WINDOW.value] > 5:
             return float('inf')
+        if individual[SVRParameter.C.value] == 0:
+            return float('inf')
 
         loss = svr_model(
             dataset,
@@ -77,7 +79,8 @@ def svr_evaluator(dataset):
             'training_window': individual[SVRParameter.TRAINING_WINDOW.value],
             'prediction_window': individual[SVRParameter.PREDICTION_WINDOW.value],
             'C': individual[SVRParameter.C.value],
-            'epsilon': individual[SVRParameter.EPSILON.value]
+            'epsilon': individual[SVRParameter.EPSILON.value],
+            'level': dataset["id_proy"].iloc[0]
         }, loss, 'SVR', './results.csv')
 
         return loss
