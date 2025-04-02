@@ -3,6 +3,8 @@ from sklearn.linear_model import LinearRegression
 import functools
 import matplotlib.pyplot as plt
 import utils
+from population import ENFERMEDAD
+
 
 def subexponential_model(dataset, training_window, prediction_window, plot=False):
     dataset = dataset.copy()
@@ -31,9 +33,13 @@ def subexponential_model(dataset, training_window, prediction_window, plot=False
 
     if plot:
         plt.figure(figsize=(8, 5))
-        plt.title(f'Training: {training_window}, Prediction: {prediction_window}')
-        plt.plot(np.exp(observed_values), label="Observed")
-        plt.plot(np.exp(predicted_values), label="Predicted")
+        plt.title(f'Modelo Subexponencial / {ENFERMEDAD} (VE: {training_window}, VP: {prediction_window})')
+        plt.xlabel('Nro de semana epidemiologica')
+        plt.ylabel('Nro de casos')
+        plt.plot(np.exp(observed_values), label="Observaciones")
+        plt.plot(np.exp(predicted_values), label="Predicciones")
+        plt.legend()
+        plt.tight_layout()
         plt.show()
 
     return utils.loss_function(predicted_values, observed_values)

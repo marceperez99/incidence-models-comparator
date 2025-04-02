@@ -4,6 +4,7 @@ import functools
 import matplotlib.pyplot as plt
 
 import utils
+from population import ENFERMEDAD
 
 
 def exponential_model(dataset, training_window, prediction_window, plot=False):
@@ -34,9 +35,13 @@ def exponential_model(dataset, training_window, prediction_window, plot=False):
 
     if plot:
         plt.figure(figsize=(8, 5))
-        plt.title(f'Training: {training_window}, Prediction: {prediction_window}')
-        plt.plot(np.exp(observed_values), label="Observed")
-        plt.plot(np.exp(predicted_values), label="Predicted")
+        plt.title(f'Modelo Exponencial / {ENFERMEDAD} (VE: {training_window}, VP: {prediction_window})')
+        plt.xlabel('Nro de semana epidemiologica')
+        plt.ylabel('Nro de casos')
+        plt.plot(np.exp(observed_values), label="Observaciones")
+        plt.plot(np.exp(predicted_values), label="Predicciones")
+        plt.legend()
+        plt.tight_layout()
         plt.show()
 
     return utils.loss_function(predicted_values, observed_values)
@@ -48,11 +53,7 @@ def exponential_evaluator(dataset):
         if individual[0] <= 1: return float('inf')
         if individual[1] == 0 or individual[1] > 5: return float('inf')
         loss = exponential_model(dataset, individual[0], individual[1])
-        utils.log_experiment({
-            'training_window': individual[0],
-            'prediction_window': individual[1]
-        }, loss, 'Exponential',
-            './results.csv')
+
         return loss
 
     return exponential_evaluation

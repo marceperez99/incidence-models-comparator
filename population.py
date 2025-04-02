@@ -1,7 +1,14 @@
 import numpy as np
 from utils import get_dataset
 
-dataset = get_dataset('./case_data.csv')
+ENFERMEDAD = 'Dengue'
+ENFERMEDAD = 'Chikungunya'
+CLASIFICACION =  'Confirmado'
+DEPARTAMENTO = 'Central'
+
+DATASET_NAME = f'{ENFERMEDAD.lower()}_{CLASIFICACION.lower()}_{DEPARTAMENTO.lower()}.csv'
+
+dataset = get_dataset(f'./data/{DATASET_NAME}')
 
 def get_initial_population(size):
     return [(np.random.randint(low=2, high=dataset.shape[0] // 2), np.random.randint(low=2, high=6)) for _ in

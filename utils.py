@@ -36,9 +36,9 @@ def loss_function(y_true, y_pred):
     return (mae + mape + rmse + nrmse) / 4
 
 
-def log_experiment(parameters: dict, loss: float, algorithm: str, filename="experiment_log.csv"):
+def log_experiment(parameters: dict, loss: float, algorithm: str, filename="experiment_log.csv", dataset: str = ''):
     # Define the header
-    headers = ["timestamp", "algorithm", "loss", "parameters"]
+    headers = ["timestamp", "dataset", "algorithm", "loss", "parameters"]
 
     # Get the current timestamp
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -58,4 +58,4 @@ def log_experiment(parameters: dict, loss: float, algorithm: str, filename="expe
             writer.writerow(headers)
 
         # Write the new experiment log
-        writer.writerow([timestamp, algorithm, loss, parameters_str])
+        writer.writerow([timestamp, dataset, algorithm, loss, parameters_str])
