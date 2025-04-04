@@ -61,7 +61,11 @@ match args[1]:
                                          get_initial_population_svr)
     case 'arima':
         loss = autoarima_model(dataset, 4)
-        exit()
+        utils.log_experiment({
+            'prediction_window': 4
+        }, loss, 'AutoArima',
+            './data/results.csv', DATASET_NAME)
+
     case _:
         print('Invalid model')
         exit()

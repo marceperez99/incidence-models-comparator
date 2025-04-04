@@ -2,7 +2,7 @@ import numpy as np
 from utils import get_dataset
 
 ENFERMEDAD = 'Dengue'
-ENFERMEDAD = 'Chikungunya'
+# ENFERMEDAD = 'Chikungunya'
 CLASIFICACION =  'Confirmado'
 DEPARTAMENTO = 'Central'
 
