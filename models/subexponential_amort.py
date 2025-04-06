@@ -58,11 +58,6 @@ def subexp_amort_evaluator(dataset):
         if individual[1] == 0 or individual[1] > 5: return float('inf')
 
         loss = subexp_amort_model(dataset, individual[0], individual[1])
-        utils.log_experiment({
-            'training_window': individual[0],
-            'prediction_window': individual[1]
-        }, loss, 'Subexp-Amortiguado',
-            './results.csv')
         return loss
 
     return amort_evaluation

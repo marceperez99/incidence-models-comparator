@@ -16,8 +16,7 @@ class GeneticAlgorithm:
         self.generations = generations
         self.mutation_rate = mutation_rate
 
-        self.initial_population_function = initial_population_function
-        initial = self.initial_population_function(self.population_size)
+        initial = initial_population_function(self.population_size)
         self.population = ["".join([format(p, f'0{NUMBER_OF_BITS}b') for p in i]) for i in initial]
         self.eval_function = lambda a: eval_function(decode(a))
 
@@ -55,7 +54,9 @@ class GeneticAlgorithm:
 
     def run(self):
         best_individual = None
+
         for generation in range(self.generations):
+
             new_population = []
             for _ in range(self.population_size):
                 parent1, parent2 = self.select_parents()
@@ -71,12 +72,10 @@ class GeneticAlgorithm:
 
             assert not best_individual or self.eval_function(best_individual) >= self.eval_function(self.population[-1])
             best_individual = self.population[-1]
-            # print(f'best in generation {generation}', decode(best_individual), self.eval_function(best_individual))
-
-
-
+            print(f'best in generation {generation}', decode(best_individual), self.eval_function(best_individual))
 
 
         # Devuelve el mejor individuo encontrado
         best_individual = min(self.population, key=self.eval_function)
+
         return decode(best_individual), self.eval_function(best_individual)

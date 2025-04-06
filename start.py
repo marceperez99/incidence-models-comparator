@@ -1,10 +1,10 @@
 import sys
 from models.autoarima import autoarima_model
-from evolutionary_algorithm import GeneticAlgorithm
+from evolutionary_algorithm import GeneticAlgorithm, NUMBER_OF_BITS
 from models.subexponential import subexponential_evaluator, subexponential_model
 from models.exponential import exponential_evaluator, exponential_model
 from models.random_forest import random_forest_evaluator
-from models.SVR import svr_evaluator
+from models.SVR import svr_evaluator, svr_model, decode_c, decode_epsilon
 from models.subexponential_amort import subexp_amort_evaluator, subexp_amort_model
 
 from population import get_initial_population, DATASET_NAME
@@ -57,12 +57,30 @@ match args[1]:
         genetic_agent = GeneticAlgorithm(POPULATION, GENERATIONS, 0.1, random_forest_evaluator(dataset),
                                          get_initial_population_random_forest)
     case 'svr':
-        genetic_agent = GeneticAlgorithm(POPULATION, GENERATIONS, 0.1, svr_evaluator(dataset),
+        genetic_agent = GeneticAlgorithm(POPULATION, GENERATIONS, 0.1, svr_evaluator(dataset, 4),
                                          get_initial_population_svr)
+        params, loss = genetic_agent.run()
+
+        print(loss)
     case 'arima':
         loss = autoarima_model(dataset, 4)
         utils.log_experiment({
             'prediction_window': 4
+        }, loss, 'AutoArima',
+            './data/results.csv', DATASET_NAME)
+        loss = autoarima_model(dataset, 3)
+        utils.log_experiment({
+            'prediction_window': 3
+        }, loss, 'AutoArima',
+            './data/results.csv', DATASET_NAME)
+        loss = autoarima_model(dataset, 2)
+        utils.log_experiment({
+            'prediction_window': 2
+        }, loss, 'AutoArima',
+            './data/results.csv', DATASET_NAME)
+        loss = autoarima_model(dataset, 1)
+        utils.log_experiment({
+            'prediction_window': 1
         }, loss, 'AutoArima',
             './data/results.csv', DATASET_NAME)
 

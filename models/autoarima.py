@@ -2,7 +2,6 @@ import numpy as np
 from pmdarima.arima import auto_arima
 import utils
 import matplotlib.pyplot as plt
-
 from population import ENFERMEDAD
 
 
@@ -38,5 +37,8 @@ def autoarima_model(dataset, prediction_window):
     plt.legend()
     plt.tight_layout()
     plt.show()
+    # Guardar el gráfico
+    plt.savefig(f'autoarima_{ENFERMEDAD}_{prediction_window}.png', dpi=300, bbox_inches='tight')  # dpi: calidad, bbox_inches: recorte automático
+    plt.close()
 
     return utils.loss_function(predictions, test)
