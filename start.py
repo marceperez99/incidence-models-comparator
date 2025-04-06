@@ -1,14 +1,14 @@
 import sys
+
+from models.artificial_neural_network import  search_best_ann_architecture
 from models.autoarima import autoarima_model
-from evolutionary_algorithm import GeneticAlgorithm, NUMBER_OF_BITS
+from evolutionary_algorithm import GeneticAlgorithm
 from models.subexponential import subexponential_evaluator, subexponential_model
 from models.exponential import exponential_evaluator, exponential_model
 from models.random_forest import random_forest_evaluator
-from models.SVR import svr_evaluator, svr_model, decode_c, decode_epsilon
+from models.SVR import svr_evaluator
 from models.subexponential_amort import subexp_amort_evaluator, subexp_amort_model
-
 from population import get_initial_population, DATASET_NAME
-
 from population import get_initial_population_random_forest
 from population import get_initial_population_svr
 from population import dataset
@@ -54,14 +54,36 @@ match args[1]:
         print(best_individual, error)
         subexp_amort_model(dataset, best_individual[0], best_individual[1], plot=True)
     case 'random_forest':
-        genetic_agent = GeneticAlgorithm(POPULATION, GENERATIONS, 0.1, random_forest_evaluator(dataset),
+        genetic_agent = GeneticAlgorithm(POPULATION, GENERATIONS, 0.1, random_forest_evaluator(dataset, 4),
                                          get_initial_population_random_forest)
+        loss, params = genetic_agent.run()
+        print(loss, params)
     case 'svr':
         genetic_agent = GeneticAlgorithm(POPULATION, GENERATIONS, 0.1, svr_evaluator(dataset, 4),
                                          get_initial_population_svr)
         params, loss = genetic_agent.run()
 
-        print(loss)
+    case 'ann':
+        architectures = [
+            [16, 8],
+            [32, 16],
+            [32, 16, 8],
+            [64, 32],
+            [64, 32, 16],
+            [32, 32],
+            [16],  # muy simple, buen baseline
+            [128, 64, 32],  # más profunda, solo si no hay sobreajuste
+        ]
+
+        best_model, best_architecture, best_loss = search_best_ann_architecture(
+            dataset,
+            lagged_number_of_weeks=4,
+            prediction_window=1,
+            architectures=architectures
+        )
+
+        print(best_model, best_architecture, best_loss)
+
     case 'arima':
         loss = autoarima_model(dataset, 4)
         utils.log_experiment({

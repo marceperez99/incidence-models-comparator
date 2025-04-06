@@ -23,7 +23,7 @@ def get_initial_population_random_forest(size):
     return [
         (
             np.random.randint(low=2, high=dataset.shape[0] // 2),
-            np.random.randint(low=2, high=6),
+            # np.random.randint(low=2, high=6),
             np.random.choice([50, 100, 200, 300, 500]),
             np.random.choice([5, 10, 20, 30])
         ) for _ in range(size)

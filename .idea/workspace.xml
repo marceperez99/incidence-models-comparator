@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c06e29d6-bfc2-42dd-884f-195c259fe773" name="Changes" comment="adjust autoarima">
+    <list default="true" id="c06e29d6-bfc2-42dd-884f-195c259fe773" name="Changes" comment="adjust svr">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/evolutionary_algorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/evolutionary_algorithm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/SVR.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/SVR.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/autoarima.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/autoarima.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/subexponential.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/subexponential.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/subexponential_amort.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/subexponential_amort.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/artificial_neural_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/artificial_neural_network.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/random_forest.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/random_forest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/population.py" beforeDir="false" afterPath="$PROJECT_DIR$/population.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/start.py" beforeDir="false" afterPath="$PROJECT_DIR$/start.py" afterDir="false" />
     </list>
@@ -52,7 +49,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Python.Run.executor": "Run",
+    "Python.Run.executor": "Debug",
     "Python.artificial_neural_network.executor": "Run",
     "Python.start.executor": "Run",
     "Python.subexponential.executor": "Run",
@@ -93,7 +90,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/start.py" />
-      <option name="PARAMETERS" value="svr" />
+      <option name="PARAMETERS" value="random_forest" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -162,7 +159,7 @@
       <workItem from="1743563811344" duration="2678000" />
       <workItem from="1743625276768" duration="2721000" />
       <workItem from="1743628180851" duration="1455000" />
-      <workItem from="1743808654845" duration="7595000" />
+      <workItem from="1743808654845" duration="10173000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -196,7 +193,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743809706657</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="adjust svr">
+      <option name="closed" value="true" />
+      <created>1743969563362</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1743969563362</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -218,26 +223,12 @@
     <MESSAGE value="add exponential, subexponential and ann models" />
     <MESSAGE value="add ann model" />
     <MESSAGE value="adjust autoarima" />
-    <option name="LAST_COMMIT_MESSAGE" value="adjust autoarima" />
+    <MESSAGE value="adjust svr" />
+    <option name="LAST_COMMIT_MESSAGE" value="adjust svr" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/models/artificial_neural_network.py</url>
-          <line>18</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/models/artificial_neural_network.py</url>
-          <line>49</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/models/artificial_neural_network.py</url>
-          <line>27</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/models/autoarima.py</url>
           <line>43</line>
@@ -259,7 +250,7 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/incidence_models_comparator$Run.coverage" NAME="Run Coverage Results" MODIFIED="1743968898063" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/incidence_models_comparator$Run.coverage" NAME="Run Coverage Results" MODIFIED="1743971288084" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/model_comparison$Run.coverage" NAME="Run Coverage Results" MODIFIED="1741300416655" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/model_comparison$artificial_neural_network.coverage" NAME="artificial_neural_network Coverage Results" MODIFIED="1739836722809" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/models" />
     <SUITE FILE_PATH="coverage/model_comparison$start.coverage" NAME="start Coverage Results" MODIFIED="1739039602164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
