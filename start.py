@@ -1,14 +1,16 @@
 import sys
 
-from models.artificial_neural_network import  search_best_ann_architecture
+from models.artificial_neural_network import search_best_ann_architecture
 from models.autoarima import autoarima_model
 from evolutionary_algorithm import GeneticAlgorithm
+from models.knn import knn_model, knn_evaluator
+from models.lstm import lstm_model
 from models.subexponential import subexponential_evaluator, subexponential_model
 from models.exponential import exponential_evaluator, exponential_model
 from models.random_forest import random_forest_evaluator
 from models.SVR import svr_evaluator
 from models.subexponential_amort import subexp_amort_evaluator, subexp_amort_model
-from population import get_initial_population, DATASET_NAME
+from population import get_initial_population, DATASET_NAME, get_initial_population_knn
 from population import get_initial_population_random_forest
 from population import get_initial_population_svr
 from population import dataset
@@ -105,7 +107,16 @@ match args[1]:
             'prediction_window': 1
         }, loss, 'AutoArima',
             './data/results.csv', DATASET_NAME)
+    case 'knn':
+        # knn_model(dataset, 5, 4, 2, True)
+        genetic_agent = GeneticAlgorithm(POPULATION, GENERATIONS, 0.1, knn_evaluator(dataset, 4),
+                                         get_initial_population_knn)
+        params, loss = genetic_agent.run()
 
+        print(loss)
+    case 'lstm':
+        loss, model = lstm_model(dataset, 5, 1,True)
+        print(loss)
     case _:
         print('Invalid model')
         exit()

@@ -1,12 +1,8 @@
 import numpy as np
-import pandas as pd
 import functools
 import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_absolute_error
 from enum import Enum
-
-
 import utils
 
 
@@ -82,11 +78,7 @@ def random_forest_evaluator(dataset, prediction_window):
             individual[RandomForestParameter.N_ESTIMATORS.value],
             individual[RandomForestParameter.MAX_DEPTH.value]
         )
-        print(individual[RandomForestParameter.TRAINING_WINDOW.value],
-            prediction_window,
-            individual[RandomForestParameter.N_ESTIMATORS.value],
-            individual[RandomForestParameter.MAX_DEPTH.value],
-            f'loss={loss}')
+
         return loss
 
     return random_forest_evaluation

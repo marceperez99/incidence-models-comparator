@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c06e29d6-bfc2-42dd-884f-195c259fe773" name="Changes" comment="adjust svr">
+    <list default="true" id="c06e29d6-bfc2-42dd-884f-195c259fe773" name="Changes" comment="adjust ann model">
+      <change afterPath="$PROJECT_DIR$/models/knn.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/lstm.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/artificial_neural_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/artificial_neural_network.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/random_forest.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/random_forest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/population.py" beforeDir="false" afterPath="$PROJECT_DIR$/population.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/start.py" beforeDir="false" afterPath="$PROJECT_DIR$/start.py" afterDir="false" />
@@ -159,7 +160,7 @@
       <workItem from="1743563811344" duration="2678000" />
       <workItem from="1743625276768" duration="2721000" />
       <workItem from="1743628180851" duration="1455000" />
-      <workItem from="1743808654845" duration="10173000" />
+      <workItem from="1743808654845" duration="13446000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -201,7 +202,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743969563362</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="adjust ann model">
+      <option name="closed" value="true" />
+      <created>1743972119800</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1743972119800</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -224,7 +233,8 @@
     <MESSAGE value="add ann model" />
     <MESSAGE value="adjust autoarima" />
     <MESSAGE value="adjust svr" />
-    <option name="LAST_COMMIT_MESSAGE" value="adjust svr" />
+    <MESSAGE value="adjust ann model" />
+    <option name="LAST_COMMIT_MESSAGE" value="adjust ann model" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

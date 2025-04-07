@@ -5,10 +5,15 @@ ENFERMEDAD = 'Dengue'
 # ENFERMEDAD = 'Chikungunya'
 CLASIFICACION =  'Confirmado'
 DEPARTAMENTO = 'Central'
-
 DATASET_NAME = f'{ENFERMEDAD.lower()}_{CLASIFICACION.lower()}_{DEPARTAMENTO.lower()}.csv'
 
 dataset = get_dataset(f'./data/{DATASET_NAME}')
+
+def get_full_dataset():
+    dataset = get_dataset(f'./data/case_data_full.csv')
+
+
+    return dataset
 
 def get_initial_population(size):
     return [(np.random.randint(low=2, high=dataset.shape[0] // 2), np.random.randint(low=2, high=6)) for _ in
@@ -37,5 +42,13 @@ def get_initial_population_svr(size):
             # np.random.randint(low=2, high=6),  # Prediction window
             np.random.randint(low=0, high=10),
             np.random.randint(low=0, high=10)
+        ) for _ in range(size)
+    ]
+
+def get_initial_population_knn(size):
+    return [
+        (
+            np.random.randint(low=2, high=10),  # Training window
+            np.random.randint(low=1, high=10),
         ) for _ in range(size)
     ]
