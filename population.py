@@ -9,10 +9,12 @@ DATASET_NAME = f'{ENFERMEDAD.lower()}_{CLASIFICACION.lower()}_{DEPARTAMENTO.lowe
 
 dataset = get_dataset(f'./data/{DATASET_NAME}')
 
+
+dataset_dengue = get_dataset(f'./data/dengue_confirmado_central.csv')
+dataset_chiku = get_dataset(f'./data/chikungunya_confirmado_central.csv')
+
 def get_full_dataset():
     dataset = get_dataset(f'./data/case_data_full.csv')
-
-
     return dataset
 
 def get_initial_population(size):
