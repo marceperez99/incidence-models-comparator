@@ -59,5 +59,6 @@ def run_subexponential_amort(datasets, weeks):
                                   description=descripcion, output_dir=f'outputs/plots/subexponential_amort/{disease}')
 
             metrics.log_model_metrics('Subexponential Amortizado', disease, dataset['classification'].iloc[0],
-                                      dataset['name'].iloc[0], mae=mae, mape=mape, nrmse=nrmse, loss=loss, rmse=rmse,
+                                      dataset['name'].iloc[0], week_i, mae=mae, mape=mape, nrmse=nrmse, loss=loss,
+                                      rmse=rmse,
                                       hyperparams={'training_window': training_window, 'prediction_window': week_i})

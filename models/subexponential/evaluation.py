@@ -58,5 +58,6 @@ def run_subexponential(datasets, weeks):
             graphing.plot_scatter(y_true, y_pred, f'plt_scatter_{filename}', 'Subexponential', title=title,
                                   description=descripcion, output_dir=f'outputs/plots/subexponential/{disease}')
             metrics.log_model_metrics('Subexponential', disease, dataset['classification'].iloc[0],
-                                      dataset['name'].iloc[0], mae=mae, mape=mape, nrmse=nrmse, loss=loss, rmse=rmse,
+                                      dataset['name'].iloc[0], week_i, mae=mae, mape=mape, nrmse=nrmse, loss=loss,
+                                      rmse=rmse,
                                       hyperparams={'training_window': training_window, 'prediction_window': week_i})
