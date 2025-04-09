@@ -4,16 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c06e29d6-bfc2-42dd-884f-195c259fe773" name="Changes" comment="add weeks prediction to metrics file">
-      <change afterPath="$PROJECT_DIR$/models/autoarima/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/autoarima/evaluation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/autoarima/model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/autoarima/utils.py" afterDir="false" />
+    <list default="true" id="c06e29d6-bfc2-42dd-884f-195c259fe773" name="Changes" comment="add autoarima model">
+      <change afterPath="$PROJECT_DIR$/models/random_forest/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/random_forest/evaluation.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/random_forest/model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/random_forest/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/SVR.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/autoarima.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/start.py" beforeDir="false" afterPath="$PROJECT_DIR$/start.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,7 +167,7 @@
       <workItem from="1743808654845" duration="18390000" />
       <workItem from="1744035452275" duration="2470000" />
       <workItem from="1744076942160" duration="4921000" />
-      <workItem from="1744154526889" duration="8631000" />
+      <workItem from="1744154526889" duration="10048000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -260,7 +257,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744164476383</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="add autoarima model">
+      <option name="closed" value="true" />
+      <created>1744165030322</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1744165030322</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -289,7 +294,8 @@
     <MESSAGE value="agrega log de metricas sobre modelos" />
     <MESSAGE value="agrega knn a estructura final" />
     <MESSAGE value="add weeks prediction to metrics file" />
-    <option name="LAST_COMMIT_MESSAGE" value="add weeks prediction to metrics file" />
+    <MESSAGE value="add autoarima model" />
+    <option name="LAST_COMMIT_MESSAGE" value="add autoarima model" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
