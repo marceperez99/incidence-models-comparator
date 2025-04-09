@@ -1,7 +1,7 @@
 import pandas as pd
 
 from evaluation.persist import save_as_csv
-from evolutionary_algorithm import GeneticAlgorithm
+from genetic_algorithm.genetic_algorithm import GeneticAlgorithm
 from genetic_algorithm.contants import GENERATIONS, POPULATION, MUTATION_PROBABILITY, NUMBER_OF_BITS
 from models.svr.model import svr_model
 from models.svr.utils import decode_c, decode_epsilon, get_initial_population

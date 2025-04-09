@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from enum import Enum
 
 import utils
-from evolutionary_algorithm import NUMBER_OF_BITS
+from genetic_algorithm.genetic_algorithm import NUMBER_OF_BITS
 from population import ENFERMEDAD
 
 

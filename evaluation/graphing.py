@@ -4,6 +4,9 @@ import seaborn as sns
 import pandas as pd
 import os
 
+observed_color = '#F08700'  # azul noche
+predicted_color = '#457B9D'  # rojo suave
+
 
 def plot_mae_bar(model_names: List[str], mae_scores: List[float], output_dir: str = 'plots') -> None:
     os.makedirs(output_dir, exist_ok=True)
@@ -28,8 +31,8 @@ def plot_observed_vs_predicted(
     os.makedirs(output_dir, exist_ok=True)
 
     fig, ax = plt.subplots(figsize=(10, 5))
-    ax.plot(y_true, label='Observado')
-    ax.plot(y_pred, label='Predicho')
+    ax.plot(y_true, label='Observado', color=observed_color)
+    ax.plot(y_pred, label='Predicho', color=predicted_color)
 
     ax.set_title(title)
     ax.set_xlabel('Semana')
@@ -54,7 +57,7 @@ def plot_scatter(y_true: List[float], y_pred: List[float], filename: str, model_
     os.makedirs(output_dir, exist_ok=True)
 
     fig, ax = plt.subplots(figsize=(6, 6))
-    ax.scatter(y_true, y_pred, alpha=0.7, label=model_name)
+    ax.scatter(y_true, y_pred, alpha=0.7, label=model_name, color=predicted_color)
     ax.plot([min(y_true), max(y_true)], [min(y_true), max(y_true)], 'k--', lw=2)
 
     ax.set_xlabel('Observado')

@@ -2,7 +2,7 @@ import sys
 
 from models.artificial_neural_network import search_best_ann_architecture
 from models.autoarima import autoarima_model
-from evolutionary_algorithm import GeneticAlgorithm
+from genetic_algorithm.genetic_algorithm import GeneticAlgorithm
 from models.knn import knn_model, knn_evaluator
 from models.lstm import lstm_model
 # from models.subexponential import subexponential_evaluator, subexponential_model

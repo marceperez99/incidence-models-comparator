@@ -4,8 +4,10 @@ import argparse
 import pandas as pd
 
 from models.subexponential.evaluation import run_subexponential
+from models.subexponential_amortized.evaluation import run_subexponential_amort
 from models.svr.evaluation import run_svr
 from models.exponential.evaluation import run_exponential
+
 from utils import get_dataset
 
 
@@ -37,9 +39,7 @@ def main():
     if "rf" in args.models:
         pass
 
-
     if "knn" in args.models:
-
         pass
     if "ann" in args.models:
         full_dataset = pd.read_csv("data/case_data_full.csv")
@@ -58,8 +58,7 @@ def main():
     if "subexp" in args.models:
         run_subexponential([dengue_dataset, chiku_dataset], 4)
     if "subexp-amort" in args.models:
-        run_exponential(dengue_dataset)
-        run_exponential(chiku_dataset)
+        run_subexponential_amort([dengue_dataset, chiku_dataset], 4)
 
 
 if __name__ == "__main__":

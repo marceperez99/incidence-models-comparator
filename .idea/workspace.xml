@@ -4,32 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c06e29d6-bfc2-42dd-884f-195c259fe773" name="Changes" comment="add models">
-      <change afterPath="$PROJECT_DIR$/evaluation/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/evaluation/graphing.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/evaluation/persist.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/genetic_algorithm/contants.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/genetic_algorithm/genetic_algorithm.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/metrics/loss_function.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/exponential/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/exponential/evaluation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/exponential/model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/exponential/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/subexponential/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/subexponential/evaluation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/subexponential/model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/subexponential/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/svr/evaluation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/svr/model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/svr/utils.py" afterDir="false" />
+    <list default="true" id="c06e29d6-bfc2-42dd-884f-195c259fe773" name="Changes" comment="agrega modelo exponencial a estructura final">
+      <change afterPath="$PROJECT_DIR$/evaluation/metrics.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/subexponential_amortized/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/subexponential_amortized/evaluation.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/subexponential_amortized/model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/subexponential_amortized/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pipfile" beforeDir="false" afterPath="$PROJECT_DIR$/Pipfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pipfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Pipfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/evolutionary_algorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/evolutionary_algorithm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/exponential.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/exp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/population.py" beforeDir="false" afterPath="$PROJECT_DIR$/population.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/evaluation/graphing.py" beforeDir="false" afterPath="$PROJECT_DIR$/evaluation/graphing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/evolutionary_algorithm.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/SVR.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/SVR.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/exponential/evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/exponential/evaluation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/subexponential/evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/subexponential/evaluation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/svr/evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/svr/evaluation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/start.py" beforeDir="false" afterPath="$PROJECT_DIR$/start.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -68,29 +57,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.Run.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.artificial_neural_network.executor&quot;: &quot;Run&quot;,
-    &quot;Python.start.executor&quot;: &quot;Run&quot;,
-    &quot;Python.subexponential.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/marceloperez/Documents/fpuna/incidence-models-comparator/genetic_algorithm&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.Run.executor": "Debug",
+    "Python.artificial_neural_network.executor": "Run",
+    "Python.start.executor": "Run",
+    "Python.subexponential.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/marceloperez/Documents/fpuna/incidence-models-comparator/models",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/genetic_algorithm" />
       <recent name="$PROJECT_DIR$/models" />
+      <recent name="$PROJECT_DIR$/genetic_algorithm" />
       <recent name="$PROJECT_DIR$/data" />
       <recent name="$PROJECT_DIR$" />
     </key>
@@ -187,7 +176,7 @@
       <workItem from="1743808654845" duration="18390000" />
       <workItem from="1744035452275" duration="2470000" />
       <workItem from="1744076942160" duration="4921000" />
-      <workItem from="1744154526889" duration="827000" />
+      <workItem from="1744154526889" duration="5374000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -245,7 +234,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743995759344</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="agrega modelo exponencial a estructura final">
+      <option name="closed" value="true" />
+      <created>1744155381691</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1744155381691</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -270,7 +267,8 @@
     <MESSAGE value="adjust svr" />
     <MESSAGE value="adjust ann model" />
     <MESSAGE value="add models" />
-    <option name="LAST_COMMIT_MESSAGE" value="add models" />
+    <MESSAGE value="agrega modelo exponencial a estructura final" />
+    <option name="LAST_COMMIT_MESSAGE" value="agrega modelo exponencial a estructura final" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -287,7 +285,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/evaluation/graphing.py</url>
-          <line>19</line>
+          <line>22</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>

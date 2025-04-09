@@ -12,7 +12,7 @@ from .utils import get_initial_population
 from evaluation import graphing, metrics
 
 
-def subexponential_evaluator(dataset, weeks):
+def subexponential_amort_evaluator(dataset, weeks):
     @functools.cache
     def subexponential_evaluation(individual):
         if individual[0] <= 1: return float('inf')
@@ -25,12 +25,12 @@ def subexponential_evaluator(dataset, weeks):
     return subexponential_evaluation
 
 
-def run_subexponential(datasets, weeks):
+def run_subexponential_amort(datasets, weeks):
     for dataset in datasets:
 
         for week_i in range(1, weeks + 1):
             genetic_agent = GeneticAlgorithm(POPULATION, GENERATIONS, MUTATION_PROBABILITY,
-                                             subexponential_evaluator(dataset, week_i),
+                                             subexponential_amort_evaluator(dataset, week_i),
                                              get_initial_population)
             individual, loss = genetic_agent.run()
 
@@ -48,15 +48,16 @@ def run_subexponential(datasets, weeks):
             disease = dataset['disease'].iloc[0].lower()
             filename = f"{dataset['name'].iloc[0]}_{dataset['classification'].iloc[0]}_{week_i}".lower()
             save_as_csv(pd.DataFrame({'Observed': y_true, 'Predicted': y_pred}),
-                        f'{filename}.csv', output_dir=f'outputs/predictions/subexponential/{disease}')
+                        f'{filename}.csv', output_dir=f'outputs/predictions/{disease}/subexponential_amort')
 
-            title = f"Modelo Subexponencial ({dataset['disease'].iloc[0]})"
+            title = f"Modelo Subexponencial Amortizado ({dataset['disease'].iloc[0]})"
             descripcion = f'VP:{week_i} semanas VE: {training_window} semanas'
             graphing.plot_observed_vs_predicted(y_true, y_pred, f'plt_obs_pred_{filename}',
                                                 output_dir=f'outputs/plots/{disease}', title=title,
                                                 description=descripcion)
             graphing.plot_scatter(y_true, y_pred, f'plt_scatter_{filename}', 'Exponential', title=title,
-                                  description=descripcion, output_dir=f'outputs/plots/subexponential/{disease}')
-            metrics.log_model_metrics('Subexponential', disease, dataset['classification'].iloc[0],
+                                  description=descripcion, output_dir=f'outputs/plots/{disease}/subexponential_amort')
+
+            metrics.log_model_metrics('Subexponential Amortizado', disease, dataset['classification'].iloc[0],
                                       dataset['name'].iloc[0], mae=mae, mape=mape, nrmse=nrmse, loss=loss, rmse=rmse,
                                       hyperparams={'training_window': training_window, 'prediction_window': week_i})
