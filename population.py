@@ -47,10 +47,3 @@ def get_initial_population_svr(size):
         ) for _ in range(size)
     ]
 
-def get_initial_population_knn(size):
-    return [
-        (
-            np.random.randint(low=2, high=10),  # Training window
-            np.random.randint(low=1, high=10),
-        ) for _ in range(size)
-    ]

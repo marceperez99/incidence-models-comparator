@@ -4,21 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c06e29d6-bfc2-42dd-884f-195c259fe773" name="Changes" comment="agrega modelo exponencial a estructura final">
-      <change afterPath="$PROJECT_DIR$/evaluation/metrics.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/subexponential_amortized/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/subexponential_amortized/evaluation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/subexponential_amortized/model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/subexponential_amortized/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="c06e29d6-bfc2-42dd-884f-195c259fe773" name="Changes" comment="agrega log de metricas sobre modelos">
+      <change afterPath="$PROJECT_DIR$/models/knn/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/knn/evaluation.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/knn/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/evaluation/graphing.py" beforeDir="false" afterPath="$PROJECT_DIR$/evaluation/graphing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/evolutionary_algorithm.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/SVR.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/SVR.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/exp.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/knn/model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/exponential/evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/exponential/evaluation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/subexponential.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/models/subexponential/evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/subexponential/evaluation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/svr/evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/svr/evaluation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/subexponential_amort.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/subexponential_amortized/evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/subexponential_amortized/evaluation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/population.py" beforeDir="false" afterPath="$PROJECT_DIR$/population.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/start.py" beforeDir="false" afterPath="$PROJECT_DIR$/start.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -176,7 +174,7 @@
       <workItem from="1743808654845" duration="18390000" />
       <workItem from="1744035452275" duration="2470000" />
       <workItem from="1744076942160" duration="4921000" />
-      <workItem from="1744154526889" duration="5374000" />
+      <workItem from="1744154526889" duration="6259000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -242,7 +240,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744155381691</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="agrega log de metricas sobre modelos">
+      <option name="closed" value="true" />
+      <created>1744160721162</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1744160721162</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -268,7 +274,8 @@
     <MESSAGE value="adjust ann model" />
     <MESSAGE value="add models" />
     <MESSAGE value="agrega modelo exponencial a estructura final" />
-    <option name="LAST_COMMIT_MESSAGE" value="agrega modelo exponencial a estructura final" />
+    <MESSAGE value="agrega log de metricas sobre modelos" />
+    <option name="LAST_COMMIT_MESSAGE" value="agrega log de metricas sobre modelos" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -279,14 +286,13 @@
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/models/subexponential.py</url>
-          <line>8</line>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/evaluation/graphing.py</url>
           <line>22</line>
           <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/models/knn/model.py</url>
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
