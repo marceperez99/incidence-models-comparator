@@ -8,6 +8,7 @@ from models.subexponential_amortized.evaluation import run_subexponential_amort
 from models.svr.evaluation import run_svr
 from models.exponential.evaluation import run_exponential
 from models.knn.evaluation import run_knn
+from models.autoarima.evaluation import run_autoarima
 
 from utils import get_dataset
 
@@ -16,7 +17,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Comparación de modelos de predicción de dengue")
 
     parser.add_argument("--models", nargs="+",
-                        default=["svr", "rf", "knn", "ann", "lstm", "sarima", "exp", "subexp", "subexp-amort"],
+                        default=["svr", "rf", "knn", "ann", "lstm", "autoarima", "exp", "subexp", "subexp-amort"],
                         help="Lista de modelos a ejecutar (ej: --models svr ann rf)")
 
     parser.add_argument("--plot", action="store_true", help="Generar gráficos de comparación")
@@ -49,8 +50,8 @@ def main():
         full_dataset = pd.read_csv("data/case_data_full.csv")
         # run_lstm(full_dataset)
 
-    if "sarima" in args.models:
-        pass
+    if "autoarima" in args.models:
+        run_autoarima([dengue_dataset, chiku_dataset], 4)
 
     if "exp" in args.models:
         run_exponential([dengue_dataset, chiku_dataset], 4)

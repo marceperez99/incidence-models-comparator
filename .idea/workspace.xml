@@ -4,14 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c06e29d6-bfc2-42dd-884f-195c259fe773" name="Changes" comment="agrega knn a estructura final">
+    <list default="true" id="c06e29d6-bfc2-42dd-884f-195c259fe773" name="Changes" comment="add weeks prediction to metrics file">
+      <change afterPath="$PROJECT_DIR$/models/autoarima/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/autoarima/evaluation.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/autoarima/model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/autoarima/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/evaluation/metrics.py" beforeDir="false" afterPath="$PROJECT_DIR$/evaluation/metrics.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/exponential/evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/exponential/evaluation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/knn/evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/knn/evaluation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/subexponential/evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/subexponential/evaluation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/subexponential_amortized/evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/subexponential_amortized/evaluation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/svr/evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/svr/evaluation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/SVR.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/autoarima.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/start.py" beforeDir="false" afterPath="$PROJECT_DIR$/start.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +170,7 @@
       <workItem from="1743808654845" duration="18390000" />
       <workItem from="1744035452275" duration="2470000" />
       <workItem from="1744076942160" duration="4921000" />
-      <workItem from="1744154526889" duration="7844000" />
+      <workItem from="1744154526889" duration="8631000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -250,7 +252,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744161685667</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="add weeks prediction to metrics file">
+      <option name="closed" value="true" />
+      <created>1744164476383</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1744164476383</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -278,16 +288,12 @@
     <MESSAGE value="agrega modelo exponencial a estructura final" />
     <MESSAGE value="agrega log de metricas sobre modelos" />
     <MESSAGE value="agrega knn a estructura final" />
-    <option name="LAST_COMMIT_MESSAGE" value="agrega knn a estructura final" />
+    <MESSAGE value="add weeks prediction to metrics file" />
+    <option name="LAST_COMMIT_MESSAGE" value="add weeks prediction to metrics file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/models/autoarima.py</url>
-          <line>43</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/evaluation/graphing.py</url>
           <line>22</line>
