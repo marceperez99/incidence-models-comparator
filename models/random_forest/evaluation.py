@@ -19,6 +19,7 @@ def random_forest_evaluator(dataset, weeks):
 
         if training_window <= 1: return float('inf')
         if n_estimators <= 0: return float('inf')
+        if max_depth <= 0: return float('inf')
 
         loss = random_forest_model(dataset, training_window, weeks, n_estimators, max_depth)
 

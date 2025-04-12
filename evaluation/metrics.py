@@ -39,11 +39,11 @@ def log_model_metrics(
         "Classification": classification.lower(),
         "Level": level.lower(),
         "Prediction Weeks": prediction_weeks,
-        "MAE": round(mae, 4),
-        "MAPE": round(mape, 4),
-        "RMSE": round(rmse, 4),
-        "NRMSE": round(nrmse, 4),
-        "Loss": round(loss, 4),
+        "MAE": round(mae, 8),
+        "MAPE": round(mape, 8),
+        "RMSE": round(rmse, 8),
+        "NRMSE": round(nrmse, 8),
+        "Loss": round(loss, 8),
         "Hyperparameters": str(hyperparams)
     }
 

@@ -59,7 +59,7 @@ def main():
         run_random_forest([dengue_dataset, ], 4)
 
     if "svr" in args.models:
-        run_svr([dengue_dataset, ], 4)
+        run_svr([dengue_dataset, chiku_dataset], 4)
 
     if "autoarima" in args.models:
         run_autoarima([dengue_dataset, chiku_dataset], 4)
