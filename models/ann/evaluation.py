@@ -1,6 +1,4 @@
 from tensorflow import keras
-import matplotlib.pyplot as plt
-
 from metrics.loss_function import loss_function
 from .utils import preprocess_ann_data, build_ann
 
@@ -34,20 +32,8 @@ def run_ann(dataset, training_window, prediction_window, architectures, epochs=2
 
         if loss < best_loss:
             best_loss = loss
-            best_model = model
-            best_predictions = predictions.copy()
+            best_predictions = predictions.copy().tolist()
             best_config = config
 
-        plt.figure(figsize=(10, 5))
-        plt.plot(y_test, label='Observed', marker='o')
-        plt.plot(predictions, label='Predicted', marker='x')
-        plt.title(f'Mejor Red ANN - Arquitectura: {best_config} | Loss: {best_loss:.4f}')
-        plt.xlabel('Muestras')
-        plt.ylabel('Número de casos')
-        plt.legend()
-        plt.grid(True)
-        plt.tight_layout()
-        plt.show()
-
     print(f"\n✅ Mejor arquitectura: {best_config} con loss: {best_loss}")
-    return best_model, best_config, best_loss
+    return best_loss, y_test, best_predictions, best_config
