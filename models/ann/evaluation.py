@@ -3,7 +3,7 @@ from metrics.loss_function import loss_function
 from .utils import preprocess_ann_data, build_ann
 
 
-def run_ann(dataset, training_window, prediction_window, architectures, epochs=200, batch_size=32):
+def run_ann(dataset, training_window, prediction_window, architectures, epochs=150, batch_size=64):
     dataset, feature_names = preprocess_ann_data(dataset, training_window, prediction_window)
     train = dataset[dataset['id_proy'] != "CENTRAL-DENGUE-CONFIRMADO"]
     test = dataset[dataset['id_proy'] == "CENTRAL-DENGUE-CONFIRMADO"]

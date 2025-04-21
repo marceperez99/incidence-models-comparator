@@ -2,7 +2,7 @@
 
 import argparse
 import pandas as pd
-
+from evaluation import graphing
 from models.lstm.evaluation import run_lstm
 from models.random_forest.evaluation import run_random_forest
 from models.subexponential.evaluation import run_subexponential
@@ -47,10 +47,14 @@ def main():
             [16],  # muy simple, buen baseline
             [128, 64, 32],  # más profunda, solo si no hay sobreajuste
         ]
-        run_ann(full_dataset, 4, 4, architectures)
+        best_loss, y_true, y_pred, best_config = run_ann(full_dataset, 4, 4, architectures)
+        graphing.plot_observed_vs_predicted(y_true, y_pred, f'plt_eval_ann', 'outputs/plots/ann/dengue', title='ANN',
+                              description='descripcion')
+        graphing.plot_scatter(y_true, y_pred, f'plt_scatter_ann', 'Random Forest', title='ANN',
+                              description='descripcion', output_dir=f'outputs/plots/ann/dengue')
 
     if "lstm" in args.models:
-        full_dataset = get_dataset("data/case_data_full.csv")
+        full_dataset = get_dataset("data/case_data_full.csv.csv")
 
         run_lstm(full_dataset, test_id_proy="CENTRAL-DENGUE-CONFIRMADO", sequence_length=8, prediction_window=4,
                  epochs=200)

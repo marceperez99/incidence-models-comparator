@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c06e29d6-bfc2-42dd-884f-195c259fe773" name="Changes" comment="fixes">
-      <change afterPath="$PROJECT_DIR$/notebooks/weather_data.ipynb" afterDir="false" />
+    <list default="true" id="c06e29d6-bfc2-42dd-884f-195c259fe773" name="Changes" comment="agrega script para obtener datos de clima">
+      <change afterPath="$PROJECT_DIR$/notebooks/agregar_datos_meteorologicos.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/notebooks/redes_neuronales.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genetic_algorithm/contants.py" beforeDir="false" afterPath="$PROJECT_DIR$/genetic_algorithm/contants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/ann/evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/ann/evaluation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/analisis_modelos.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/analisis_modelos.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/ann/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/ann/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/weather_data.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/weather_data.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,7 +172,7 @@
       <workItem from="1744076942160" duration="4921000" />
       <workItem from="1744154526889" duration="14585000" />
       <workItem from="1744238853723" duration="10434000" />
-      <workItem from="1744375176756" duration="32281000" />
+      <workItem from="1744375176756" duration="48355000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -292,7 +294,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744458770361</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="agrega script para obtener datos de clima">
+      <option name="closed" value="true" />
+      <created>1744565371260</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1744565371260</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -325,7 +335,8 @@
     <MESSAGE value="add random forest algorithm" />
     <MESSAGE value="chore: add base for models based on neural networks" />
     <MESSAGE value="fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixes" />
+    <MESSAGE value="agrega script para obtener datos de clima" />
+    <option name="LAST_COMMIT_MESSAGE" value="agrega script para obtener datos de clima" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -4,6 +4,8 @@ from tensorflow import keras
 import pandas as pd
 
 
+from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
+
 def preprocess_ann_data(dataset, lagged_number_of_weeks, prediction_window):
     dataset = dataset.copy()
 
@@ -32,29 +34,33 @@ def preprocess_ann_data(dataset, lagged_number_of_weeks, prediction_window):
     for i in range(lagged_number_of_weeks):
         dataset[f'i_cases_{i + 1}'] = dataset.groupby(group_keys)['i_cases'].shift(i + 1)
 
-    # Atributos
+    # Atributos a usar
     lag_cols = [f'i_cases_{i + 1}' for i in range(lagged_number_of_weeks)]
-    feature_cols = ['timestamp', 'i_cases', 'year', 'month', 'day', 'Population', 'incidence'] + list(
-        encoded_df.columns) + lag_cols
+    feature_cols = ['timestamp', 'i_cases', 'year', 'month', 'day', 'Population', 'incidence',
+                    'temp_promedio_7d', 'precip_promedio_7d',
+                    'temp_promedio_14d', 'precip_promedio_14d'] + list(encoded_df.columns) + lag_cols
 
     # Eliminar filas con NaN
     dataset = dataset.dropna(subset=feature_cols + ['prediction'])
 
-    # Escalar timestamp
+    # Escalar variables numéricas
+    numeric_cols = ['timestamp', 'i_cases', 'year', 'month', 'day', 'Population', 'incidence',
+                    'temp_promedio_7d', 'precip_promedio_7d', 'temp_promedio_14d', 'precip_promedio_14d'] + lag_cols
+
     scaler = MinMaxScaler()
-    dataset['timestamp'] = scaler.fit_transform(dataset[['timestamp']]).flatten()
+    dataset[numeric_cols] = scaler.fit_transform(dataset[numeric_cols])
 
     X = dataset[feature_cols].values
     y = dataset['prediction'].values
 
     return dataset, feature_cols
 
-
 def build_ann(input_dim, layers_config, activation='relu'):
     model = keras.Sequential()
 
     # Capa de entrada
-    model.add(keras.layers.Dense(layers_config[0], activation=activation, input_shape=(input_dim,)))
+    model.add(keras.layers.Input(input_dim))
+
 
     # Capas ocultas
     for units in layers_config[1:]:
