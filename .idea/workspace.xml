@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c06e29d6-bfc2-42dd-884f-195c259fe773" name="Changes" comment="agrega modificaciones a ann">
+    <list default="true" id="c06e29d6-bfc2-42dd-884f-195c259fe773" name="Changes" comment="modificacion de loss_function">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/evaluation/graphing.py" beforeDir="false" afterPath="$PROJECT_DIR$/evaluation/graphing.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/metrics/loss_function.py" beforeDir="false" afterPath="$PROJECT_DIR$/metrics/loss_function.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/exponential/evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/exponential/evaluation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/exponential/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/exponential/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,7 +171,7 @@
       <workItem from="1744375176756" duration="48355000" />
       <workItem from="1745276250590" duration="6449000" />
       <workItem from="1748563317444" duration="3177000" />
-      <workItem from="1748872570825" duration="4852000" />
+      <workItem from="1748872570825" duration="6150000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -313,7 +309,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745276283489</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="modificacion de loss_function">
+      <option name="closed" value="true" />
+      <created>1748894289792</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1748894289792</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -348,7 +352,8 @@
     <MESSAGE value="fixes" />
     <MESSAGE value="agrega script para obtener datos de clima" />
     <MESSAGE value="agrega modificaciones a ann" />
-    <option name="LAST_COMMIT_MESSAGE" value="agrega modificaciones a ann" />
+    <MESSAGE value="modificacion de loss_function" />
+    <option name="LAST_COMMIT_MESSAGE" value="modificacion de loss_function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -379,7 +384,7 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/incidence_models_comparator$Run.coverage" NAME="Run Coverage Results" MODIFIED="1748893965413" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/incidence_models_comparator$Run.coverage" NAME="Run Coverage Results" MODIFIED="1748895530139" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/model_comparison$Run.coverage" NAME="Run Coverage Results" MODIFIED="1741300416655" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/model_comparison$artificial_neural_network.coverage" NAME="artificial_neural_network Coverage Results" MODIFIED="1739836722809" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/models" />
     <SUITE FILE_PATH="coverage/model_comparison$start.coverage" NAME="start Coverage Results" MODIFIED="1739039602164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

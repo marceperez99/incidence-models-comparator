@@ -46,7 +46,7 @@ def main():
     print(full_dataset['id_proy'].unique())
 
     full_dataset = [grupo.copy() for _, grupo in full_dataset.groupby('id_proy')]
-    print(full_dataset)
+
     if "ann" in args.models:
         full_dataset = get_dataset("data/case_data_full.csv")
         architectures = [

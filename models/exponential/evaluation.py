@@ -26,13 +26,15 @@ def exponential_evaluator(dataset, weeks):
 
 
 def run_level(dataset, week):
+    print(
+        f"\n🔍 Ejecutando optimización genética para {dataset['name'].iloc[0]} ({dataset['disease'].iloc[0]}, {dataset['classification'].iloc[0]}) - Semana de predicción: {week}")
     genetic_agent = GeneticAlgorithm(POPULATION, GENERATIONS, MUTATION_PROBABILITY,
                                      exponential_evaluator(dataset, week),
                                      get_initial_population)
     individual, loss = genetic_agent.run()
+    print(f"   ↳ Mejor individuo encontrado: ventana entrenamiento={individual[0]} | loss={loss:.4f}")
 
     training_window = individual[0]
-
     loss, x, y_true, y_pred = exponential_model(dataset, training_window, week, return_predictions=True)
     mae = mean_absolute_error(y_true, y_pred)
     mape = mean_absolute_percentage_error(y_true, y_pred)
@@ -45,16 +47,19 @@ def run_level(dataset, week):
     # saving results
     disease = dataset['disease'].iloc[0].lower()
     filename = f"{dataset['name'].iloc[0]}_{dataset['classification'].iloc[0]}_{week}".lower()
+    print(f"   💾 Guardando resultados en outputs/{LOSS}/predictions/exponential/{disease}/{filename}.csv")
     save_as_csv(pd.DataFrame({'Observed': y_true, 'Predicted': y_pred}),
                 f'{filename}.csv', output_dir=f'outputs/{LOSS}/predictions/exponential/{disease}')
 
     title = f"Modelo Exponencial ({dataset['disease'].iloc[0]})"
     descripcion = f'VP:{week} semanas VE: {training_window} semanas'
+    print(f"   📊 Generando gráficos de predicción y dispersión para {filename}")
     graphing.plot_observed_vs_predicted(y_true, y_pred, f'plt_obs_pred_{filename}',
                                         output_dir=f'outputs/{LOSS}/plots/exponential/{disease}', title=title,
                                         description=descripcion)
     graphing.plot_scatter(y_true, y_pred, f'plt_scatter_{filename}', 'Exponential', title=title,
                           description=descripcion, output_dir=f'outputs/{LOSS}/plots/exponential/{disease}')
+    print(f"   📝 Log de métricas del modelo para {filename}")
     metrics.log_model_metrics('Exponential', disease, dataset['classification'].iloc[0],
                               dataset['name'].iloc[0], week, mae=mae, mape=mape, nrmse=nrmse, loss=loss, rmse=rmse,
                               hyperparams={'training_window': training_window, 'prediction_window': week})
@@ -63,17 +68,23 @@ def run_level(dataset, week):
 
 
 def run_exponential(datasets, weeks):
-    for dataset in datasets:
+    for i, dataset in enumerate(datasets):
+        print(
+            f"\n🚩 Procesando dataset {i + 1}/{len(datasets)}: {dataset['name'].iloc[0]} ({dataset['disease'].iloc[0]}, {dataset['classification'].iloc[0]})")
         series = []
         for week_i in range(1, weeks + 1):
             x, y_true, y_pred = run_level(dataset, week_i)
             series.append([week_i, x, y_pred])
 
+        print(f"   🖼️ Graficando predicciones combinadas para {dataset['name'].iloc[0]}")
         graphing.graficar_predicciones(dataset, series)
+    print("\n✅ Finalizó la ejecución de run_exponential.")
 
-def run_exponential_one(args):
-    dataset, weeks = args
-    run_exponential([dataset], weeks)
+
+def run_level_wrapper(args):
+    dataset, week = args
+    x, y_true, y_pred = run_level(dataset, week)
+    return [week, x, y_pred]
 
 
 def run_exponential_multiprocess(datasets, weeks):
@@ -81,8 +92,16 @@ def run_exponential_multiprocess(datasets, weeks):
     Ejecuta run_exponential sobre cada dataset en paralelo usando procesos.
     - datasets: lista de DataFrames
     - weeks: entero
-    - max_workers: cantidad máxima de procesos
     """
-    args_list = [(dataset, weeks) for dataset in datasets]
-    with concurrent.futures.ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
-        list(executor.map(run_exponential_one, args_list))
+    print(f"\n⚡ Ejecutando en paralelo con {os.cpu_count()} procesos disponibles ({len(datasets)} datasets)...")
+
+    for i, dataset in enumerate(datasets):
+        print(
+            f"\n🚩 Procesando dataset {i + 1}/{len(datasets)}: {dataset['name'].iloc[0]} ({dataset['disease'].iloc[0]}, {dataset['classification'].iloc[0]})")
+        args_list = [(dataset, i) for i in range(1, weeks + 1)]
+
+        with concurrent.futures.ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
+            series = list(executor.map(run_level_wrapper, args_list))
+            print(f"   🖼️ Graficando predicciones combinadas para {dataset['name'].iloc[0]}")
+            graphing.graficar_predicciones(dataset, series)
+    print("\n✅ Finalizó la ejecución de run_exponential.")
