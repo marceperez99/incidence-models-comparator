@@ -4,6 +4,8 @@ import seaborn as sns
 import pandas as pd
 import os
 
+LOSS = 'mape'
+
 observed_color = '#F08700'  # azul noche
 predicted_color = '#457B9D'  # rojo suave
 
@@ -101,3 +103,47 @@ def plot_metrics_heatmap(model_names: List[str], mae_scores: List[float], rmse_s
     plt.tight_layout()
     plt.savefig(f'{output_dir}/heatmap_metricas.png')
     plt.close()
+
+def graficar_predicciones(
+    dataset,
+    predictions,
+    pie_dict=None
+):
+    """
+    Genera y guarda un gráfico de comparación entre casos observados y predicciones.
+
+    Parámetros:
+    - dataset: DataFrame con las columnas 't' (tiempo/semana) e 'i_cases' (observado)
+    - predictions: lista de tuplas (n_semanas, x, y), donde x e y son arrays para cada predicción
+    - archivo_salida: str, ruta donde se guardará la imagen (ej: 'grafico.png')
+    - pie_dict: dict (opcional), claves/valores para agregar como pie del gráfico
+    """
+    plt.figure(figsize=(8, 5))
+    plt.plot(dataset['t'], dataset['i_cases'], label='Observado')
+    for semana, x, y in predictions:
+        plt.plot(x, y, label=f'Predicción a {semana} semanas')
+
+    plt.title("Número de casos predichos")
+    plt.xlabel("Semana")
+    plt.ylabel("Número de casos")
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+
+    # Pie de imagen (caption)
+    if pie_dict:
+        pie_texto = ', '.join([f"{k}: {v}" for k, v in pie_dict.items()])
+        plt.figtext(0.5, -0.07, pie_texto, wrap=True, horizontalalignment='center', fontsize=10)
+
+    disease = dataset['disease'].iloc[0].lower()
+    level = dataset['name'].iloc[0].lower()
+    classification = dataset['classification'].iloc[0].lower()
+    directory = f'outputs/{LOSS}/plots/exponential/{disease}/{level}/{classification}'
+    os.makedirs(directory, exist_ok=True)
+    archivo_salida = f'{directory}/nro_de_casos.png'
+
+    plt.savefig(archivo_salida, bbox_inches='tight')
+    plt.close()
+
+# Ejemplo de uso:
+# graficar_predicciones(dataset, series, "mi_grafico.png", {"Departamento": "Central", "Año": 2023})

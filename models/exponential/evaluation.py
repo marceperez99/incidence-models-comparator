@@ -2,14 +2,16 @@ import pandas as pd
 import functools
 from sklearn.metrics import mean_absolute_error, mean_squared_error, mean_absolute_percentage_error
 import numpy as np
-
 from evaluation.persist import save_as_csv
 from genetic_algorithm.genetic_algorithm import GeneticAlgorithm
 from genetic_algorithm.contants import GENERATIONS, POPULATION, MUTATION_PROBABILITY
-
 from .model import exponential_model
 from .utils import get_initial_population
 from evaluation import graphing, metrics
+import concurrent.futures
+import os
+
+LOSS = 'mape'
 
 
 def exponential_evaluator(dataset, weeks):
@@ -23,39 +25,64 @@ def exponential_evaluator(dataset, weeks):
     return exponential_evaluation
 
 
+def run_level(dataset, week):
+    genetic_agent = GeneticAlgorithm(POPULATION, GENERATIONS, MUTATION_PROBABILITY,
+                                     exponential_evaluator(dataset, week),
+                                     get_initial_population)
+    individual, loss = genetic_agent.run()
+
+    training_window = individual[0]
+
+    loss, x, y_true, y_pred = exponential_model(dataset, training_window, week, return_predictions=True)
+    mae = mean_absolute_error(y_true, y_pred)
+    mape = mean_absolute_percentage_error(y_true, y_pred)
+    rmse = np.sqrt(mean_squared_error(y_true, y_pred))
+    nrmse = rmse / np.mean(y_true)
+
+    y_pred = np.exp(y_pred)
+    y_true = np.exp(y_true)
+
+    # saving results
+    disease = dataset['disease'].iloc[0].lower()
+    filename = f"{dataset['name'].iloc[0]}_{dataset['classification'].iloc[0]}_{week}".lower()
+    save_as_csv(pd.DataFrame({'Observed': y_true, 'Predicted': y_pred}),
+                f'{filename}.csv', output_dir=f'outputs/{LOSS}/predictions/exponential/{disease}')
+
+    title = f"Modelo Exponencial ({dataset['disease'].iloc[0]})"
+    descripcion = f'VP:{week} semanas VE: {training_window} semanas'
+    graphing.plot_observed_vs_predicted(y_true, y_pred, f'plt_obs_pred_{filename}',
+                                        output_dir=f'outputs/{LOSS}/plots/exponential/{disease}', title=title,
+                                        description=descripcion)
+    graphing.plot_scatter(y_true, y_pred, f'plt_scatter_{filename}', 'Exponential', title=title,
+                          description=descripcion, output_dir=f'outputs/{LOSS}/plots/exponential/{disease}')
+    metrics.log_model_metrics('Exponential', disease, dataset['classification'].iloc[0],
+                              dataset['name'].iloc[0], week, mae=mae, mape=mape, nrmse=nrmse, loss=loss, rmse=rmse,
+                              hyperparams={'training_window': training_window, 'prediction_window': week})
+
+    return x, y_true, y_pred
+
+
 def run_exponential(datasets, weeks):
     for dataset in datasets:
-
+        series = []
         for week_i in range(1, weeks + 1):
-            genetic_agent = GeneticAlgorithm(POPULATION, GENERATIONS, MUTATION_PROBABILITY,
-                                             exponential_evaluator(dataset, week_i),
-                                             get_initial_population)
-            individual, loss = genetic_agent.run()
+            x, y_true, y_pred = run_level(dataset, week_i)
+            series.append([week_i, x, y_pred])
 
-            training_window = individual[0]
+        graphing.graficar_predicciones(dataset, series)
 
-            loss, y_true, y_pred = exponential_model(dataset, training_window, week_i, return_predictions=True)
-            mae = mean_absolute_error(y_true, y_pred)
-            mape = mean_absolute_percentage_error(y_true, y_pred)
-            rmse = np.sqrt(mean_squared_error(y_true, y_pred))
-            nrmse = rmse / np.mean(y_true)
+def run_exponential_one(args):
+    dataset, weeks = args
+    run_exponential([dataset], weeks)
 
-            y_pred = np.exp(y_pred)
-            y_true = np.exp(y_true)
-            # saving results
-            disease = dataset['disease'].iloc[0].lower()
-            filename = f"{dataset['name'].iloc[0]}_{dataset['classification'].iloc[0]}_{week_i}".lower()
-            save_as_csv(pd.DataFrame({'Observed': y_true, 'Predicted': y_pred}),
-                        f'{filename}.csv', output_dir=f'outputs/predictions/exponential/{disease}')
 
-            title = f"Modelo Exponencial ({dataset['disease'].iloc[0]})"
-            descripcion = f'VP:{week_i} semanas VE: {training_window} semanas'
-            graphing.plot_observed_vs_predicted(y_true, y_pred, f'plt_obs_pred_{filename}',
-                                                output_dir=f'outputs/plots/exponential/{disease}', title=title,
-                                                description=descripcion)
-            graphing.plot_scatter(y_true, y_pred, f'plt_scatter_{filename}', 'Exponential', title=title,
-                                  description=descripcion, output_dir=f'outputs/plots/exponential/{disease}')
-            metrics.log_model_metrics('Exponential', disease, dataset['classification'].iloc[0],
-                                      dataset['name'].iloc[0], week_i, mae=mae, mape=mape, nrmse=nrmse, loss=loss, rmse=rmse,
-                                      hyperparams={'training_window': training_window, 'prediction_window': week_i})
-
+def run_exponential_multiprocess(datasets, weeks):
+    """
+    Ejecuta run_exponential sobre cada dataset en paralelo usando procesos.
+    - datasets: lista de DataFrames
+    - weeks: entero
+    - max_workers: cantidad máxima de procesos
+    """
+    args_list = [(dataset, weeks) for dataset in datasets]
+    with concurrent.futures.ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
+        list(executor.map(run_exponential_one, args_list))

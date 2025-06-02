@@ -4,28 +4,53 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, mean_absolu
 import csv
 import datetime
 import os
+from typing import List, Optional
 
-def get_dataset(path):
-    data_csv = pd.read_csv(path)
 
-    df_0 = data_csv[(data_csv['disease'] != "DENGUE,CHIKUNGUNYA") & (data_csv['disease'] != "ARBOVIROSIS")]
-    # Update the 'i_cases' column in the DataFrame 'df_0' where the value is 0 with a random exponential value between 1e-9 and 1.
-    df_0.loc[df_0['i_cases'] == 0, 'i_cases'] = np.exp(np.random.uniform(np.log(1e-9), np.log(1)))
+def get_dataset(path, filter_levels: Optional[List[str]] = None,
+                filter_diseases: Optional[List[str]] = None,
+                filter_case_types: Optional[List[str]] = None):
+    """
+        Carga el CSV de casos y realiza preprocesamiento:
+         - Filtrado de enfermedades deseadas
+         - Conversión de fecha y extracción de t (días desde inicio +1)
+         - Imputación de ceros en i_cases con ruido controlado
+         - Cálculo de suma acumulada por unidad temporal
+         - Generación de id_proy
+        """
+    # ---- 1. Leer CSV y parsear fechas ----
+    df = pd.read_csv(path, parse_dates=['date'], dtype={'i_cases': 'float64'})
 
-    # Group by specified columns and apply mutations
-    df_0 = df_0.groupby(
-        ['name', 'level', 'disease', 'classification'],
-        group_keys=False
-    ).apply(lambda group: (
-        group.assign(id_proy=group['name'] + '-' + group['disease'] + '-' + group['classification'],
-                     i_cases=group['i_cases'] + np.exp(np.random.uniform(np.log(1e-9), np.log(1), size=len(group))),
-                     csum=group['i_cases'].cumsum())
-    )
-            ).reset_index(drop=True)
-    # create columns of time
-    df_0['date'] = pd.to_datetime(df_0['date'])
-    df_0['t'] = (df_0['date'] - df_0['date'].min() + (1 * np.timedelta64(1, 'D'))) / np.timedelta64(1, 'D')
-    return df_0
+    # 2. Filtros condicionales
+    if filter_levels:
+        df = df[df['name'].isin(filter_levels)]
+    if filter_diseases:
+        # normalizamos a mayúsculas para evitar discrepancias
+        allowed = {d.upper() for d in filter_diseases}
+        df = df[df['disease'].str.upper().isin(allowed)]
+    if filter_case_types:
+        df = df[df['classification'].isin(filter_case_types)]
+
+    # ---- 3. Ordenar para cumsum ----
+    df = df.sort_values(['name', 'level', 'disease', 'classification', 'date'])
+
+    # ---- 4. Imputar ceros de i_cases con ruido exponencial ----
+    seed = 32
+    rng = np.random.default_rng(seed)
+    mask_zero = df['i_cases'] == 0
+    # ruido: distribución exponencial con media ~0.1
+    df.loc[mask_zero, 'i_cases'] = rng.exponential(scale=0.1, size=mask_zero.sum())
+
+    # ---- 5. Calcular suma acumulada (csum) por grupo ----
+    df['csum'] = df.groupby(['name', 'level', 'disease', 'classification'])['i_cases'].cumsum()
+
+    # ---- 6. Generar id_proy como string compacto ----
+    df['id_proy'] = (df['name'] + '_' + df['disease'] + '_' + df['classification'])
+
+    # ---- 7. Crear columna t (días desde el inicio + 1) ----
+    df['t'] = (df['date'] - df['date'].min()).dt.days + 1
+
+    return df
 
 
 def loss_function(y_true, y_pred):

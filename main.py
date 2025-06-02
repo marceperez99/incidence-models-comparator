@@ -8,7 +8,7 @@ from models.random_forest.evaluation import run_random_forest
 from models.subexponential.evaluation import run_subexponential
 from models.subexponential_amortized.evaluation import run_subexponential_amort
 from models.svr.evaluation import run_svr
-from models.exponential.evaluation import run_exponential
+from models.exponential.evaluation import run_exponential_multiprocess
 from models.knn.evaluation import run_knn
 from models.ann.evaluation import run_ann
 from models.autoarima.evaluation import run_autoarima
@@ -24,17 +24,29 @@ def parse_args():
                         help="Lista de modelos a ejecutar (ej: --models svr ann rf)")
 
     parser.add_argument("--plot", action="store_true", help="Generar gráficos de comparación")
-
+    parser.add_argument(
+        "--case_types",
+        nargs="*",  # 0 or more args → always a list
+        default=[],  # even if flag is absent → empty list
+        help="Niveles a analizar"
+    )
+    parser.add_argument("--level_names", nargs="*", default=[], help="Niveles a analizar")
+    parser.add_argument("--diseases", nargs="*", default=[], help="Enfermedades a analizar")
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
 
-    # 1. Cargar y preprocesar datos
-    dengue_dataset = get_dataset("data/dengue_confirmado_central.csv")
-    chiku_dataset = get_dataset("data/chikungunya_confirmado_central.csv")
 
+    # 1. Cargar y preprocesar datos
+    full_dataset = get_dataset("data/case_data_full.csv", args.level_names, args.diseases, args.case_types)
+    # dengue_dataset = get_dataset("data/dengue_confirmado_central.csv")
+    # chiku_dataset = get_dataset("data/chikungunya_confirmado_central.csv")
+    print(full_dataset['id_proy'].unique())
+
+    full_dataset = [grupo.copy() for _, grupo in full_dataset.groupby('id_proy')]
+    print(full_dataset)
     if "ann" in args.models:
         full_dataset = get_dataset("data/case_data_full.csv")
         architectures = [
@@ -49,7 +61,7 @@ def main():
         ]
         best_loss, y_true, y_pred, best_config = run_ann(full_dataset, 4, 4, architectures)
         graphing.plot_observed_vs_predicted(y_true, y_pred, f'plt_eval_ann', 'outputs/plots/ann/dengue', title='ANN',
-                              description='descripcion')
+                                            description='descripcion')
         graphing.plot_scatter(y_true, y_pred, f'plt_scatter_ann', 'Random Forest', title='ANN',
                               description='descripcion', output_dir=f'outputs/plots/ann/dengue')
 
@@ -69,7 +81,7 @@ def main():
         run_autoarima([dengue_dataset, chiku_dataset], 4)
 
     if "exp" in args.models:
-        run_exponential([dengue_dataset, chiku_dataset], 4)
+        run_exponential_multiprocess(full_dataset, 4)
 
     if "subexp" in args.models:
         run_subexponential([dengue_dataset, chiku_dataset], 4)

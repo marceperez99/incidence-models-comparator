@@ -8,6 +8,7 @@ def exponential_model(dataset, training_window, prediction_window, return_predic
     dataset = dataset.copy()
     dataset['target'] = dataset['i_cases']
 
+    dates = []
     predicted_values = []
     observed_values = []
     # Iterate over the data with a sliding window
@@ -26,11 +27,12 @@ def exponential_model(dataset, training_window, prediction_window, return_predic
 
         filtered_dataset = dataset[dataset['t'].isin(test_x)]
         if filtered_dataset.shape[0] == test_x.shape[0]:
+            dates.append(test_x[-1])
             predicted_values.append(test_y[-1])
             observed_values.append(np.log(filtered_dataset['target'].to_numpy()[-1]))
 
         # Compute and return the loss function (e.g., MAE)
     if return_predictions:
-        return loss_function.loss_function(predicted_values, observed_values), observed_values, predicted_values
+        return loss_function.loss_function(predicted_values, observed_values), dates, observed_values, predicted_values
 
     return loss_function.loss_function(predicted_values, observed_values)
