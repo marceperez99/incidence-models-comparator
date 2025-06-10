@@ -107,7 +107,8 @@ def plot_metrics_heatmap(model_names: List[str], mae_scores: List[float], rmse_s
 def graficar_predicciones(
     dataset,
     predictions,
-    pie_dict=None
+    pie_dict=None,
+    method = 'exponential'
 ):
     """
     Genera y guarda un gráfico de comparación entre casos observados y predicciones.
@@ -138,7 +139,7 @@ def graficar_predicciones(
     disease = dataset['disease'].iloc[0].lower()
     level = dataset['name'].iloc[0].lower()
     classification = dataset['classification'].iloc[0].lower()
-    directory = f'outputs/{LOSS}/plots/exponential/{disease}/{level}/{classification}'
+    directory = f'outputs/{LOSS}/plots/{method}/{disease}/{level}/{classification}'
     os.makedirs(directory, exist_ok=True)
     archivo_salida = f'{directory}/nro_de_casos.png'
 

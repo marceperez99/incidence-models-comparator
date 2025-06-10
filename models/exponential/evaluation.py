@@ -46,19 +46,24 @@ def run_level(dataset, week):
 
     # saving results
     disease = dataset['disease'].iloc[0].lower()
+    level_name = dataset['name'].iloc[0].lower()
+    classification = dataset['classification'].iloc[0].lower()
     filename = f"{dataset['name'].iloc[0]}_{dataset['classification'].iloc[0]}_{week}".lower()
     print(f"   💾 Guardando resultados en outputs/{LOSS}/predictions/exponential/{disease}/{filename}.csv")
     save_as_csv(pd.DataFrame({'Observed': y_true, 'Predicted': y_pred}),
-                f'{filename}.csv', output_dir=f'outputs/{LOSS}/predictions/exponential/{disease}')
+                f'{filename}.csv',
+                output_dir=f'outputs/{LOSS}/predictions/exponential/{disease}/{level_name}/{classification}')
 
     title = f"Modelo Exponencial ({dataset['disease'].iloc[0]})"
     descripcion = f'VP:{week} semanas VE: {training_window} semanas'
     print(f"   📊 Generando gráficos de predicción y dispersión para {filename}")
     graphing.plot_observed_vs_predicted(y_true, y_pred, f'plt_obs_pred_{filename}',
-                                        output_dir=f'outputs/{LOSS}/plots/exponential/{disease}', title=title,
+                                        output_dir=f'outputs/{LOSS}/plots/exponential/{disease}/{level_name}/{classification}',
+                                        title=title,
                                         description=descripcion)
     graphing.plot_scatter(y_true, y_pred, f'plt_scatter_{filename}', 'Exponential', title=title,
-                          description=descripcion, output_dir=f'outputs/{LOSS}/plots/exponential/{disease}')
+                          description=descripcion,
+                          output_dir=f'outputs/{LOSS}/plots/exponential/{disease}/{level_name}/{classification}')
     print(f"   📝 Log de métricas del modelo para {filename}")
     metrics.log_model_metrics('Exponential', disease, dataset['classification'].iloc[0],
                               dataset['name'].iloc[0], week, mae=mae, mape=mape, nrmse=nrmse, loss=loss, rmse=rmse,

@@ -5,7 +5,7 @@ import pandas as pd
 from evaluation import graphing
 from models.lstm.evaluation import run_lstm
 from models.random_forest.evaluation import run_random_forest
-from models.subexponential.evaluation import run_subexponential
+from models.subexponential.evaluation import run_subexponential, run_subexponential_multiprocess
 from models.subexponential_amortized.evaluation import run_subexponential_amort
 from models.svr.evaluation import run_svr
 from models.exponential.evaluation import run_exponential_multiprocess
@@ -84,7 +84,7 @@ def main():
         run_exponential_multiprocess(full_dataset, 4)
 
     if "subexp" in args.models:
-        run_subexponential([dengue_dataset, chiku_dataset], 4)
+        run_subexponential_multiprocess(full_dataset, 4)
 
     if "subexp-amort" in args.models:
         run_subexponential_amort([dengue_dataset, chiku_dataset], 4)
