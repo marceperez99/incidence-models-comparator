@@ -10,6 +10,7 @@ def knn_model(dataset, training_window, prediction_window, n_neighbors, return_p
     dataset = dataset.set_index('t')  # para búsquedas rápidas
     predicted_values = []
     observed_values = []
+    dates = []
 
     for i in range(len(dataset) - training_window - prediction_window + 1):
         section = dataset.iloc[i:i + training_window]
@@ -38,9 +39,10 @@ def knn_model(dataset, training_window, prediction_window, n_neighbors, return_p
         if len(real_y) == len(test_y):
             predicted_values.append(test_y[-1])
             observed_values.append(real_y[-1])
+            dates.append(future_t[-1])
 
     if return_predictions:
-        return loss_function.loss_function(predicted_values, observed_values), observed_values, predicted_values
+        return loss_function.loss_function(predicted_values, observed_values), dates, observed_values, predicted_values
 
     return loss_function.loss_function(predicted_values, observed_values)
 

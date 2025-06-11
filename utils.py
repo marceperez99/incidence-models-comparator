@@ -84,3 +84,10 @@ def log_experiment(parameters: dict, loss: float, algorithm: str, filename="expe
 
         # Write the new experiment log
         writer.writerow([timestamp, dataset, algorithm, loss, parameters_str])
+
+
+def get_plot_directory(disease, level, classification, method, metric):
+    return f'outputs/plots/{metric}/{method}/{disease}/{level}/{classification}'
+
+def get_results_directory(disease, level, classification, method, metric):
+    return f'outputs/predictions/{metric}/{method}/{disease}/{level}/{classification}'

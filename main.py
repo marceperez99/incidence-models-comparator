@@ -9,7 +9,7 @@ from models.subexponential.evaluation import run_subexponential, run_subexponent
 from models.subexponential_amortized.evaluation import run_subexponential_amortized_multiprocess
 from models.svr.evaluation import run_svr
 from models.exponential.evaluation import run_exponential_multiprocess
-from models.knn.evaluation import run_knn
+from models.knn.evaluation import  run_knn_multiprocess
 from models.ann.evaluation import run_ann
 from models.autoarima.evaluation import run_autoarima
 
@@ -90,7 +90,7 @@ def main():
         run_subexponential_amortized_multiprocess(full_dataset, 4)
 
     if "knn" in args.models:
-        run_knn([dengue_dataset, chiku_dataset], 4)
+        run_knn_multiprocess(full_dataset, 4)
 
 
 if __name__ == "__main__":
