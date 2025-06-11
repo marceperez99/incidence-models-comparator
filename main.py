@@ -6,7 +6,7 @@ from evaluation import graphing
 from models.lstm.evaluation import run_lstm
 from models.random_forest.evaluation import run_random_forest
 from models.subexponential.evaluation import run_subexponential, run_subexponential_multiprocess
-from models.subexponential_amortized.evaluation import run_subexponential_amort
+from models.subexponential_amortized.evaluation import run_subexponential_amortized_multiprocess
 from models.svr.evaluation import run_svr
 from models.exponential.evaluation import run_exponential_multiprocess
 from models.knn.evaluation import run_knn
@@ -78,7 +78,7 @@ def main():
         run_svr([dengue_dataset, chiku_dataset], 4)
 
     if "autoarima" in args.models:
-        run_autoarima([dengue_dataset, chiku_dataset], 4)
+        run_autoarima(full_dataset, 4)
 
     if "exp" in args.models:
         run_exponential_multiprocess(full_dataset, 4)
@@ -87,7 +87,7 @@ def main():
         run_subexponential_multiprocess(full_dataset, 4)
 
     if "subexp-amort" in args.models:
-        run_subexponential_amort([dengue_dataset, chiku_dataset], 4)
+        run_subexponential_amortized_multiprocess(full_dataset, 4)
 
     if "knn" in args.models:
         run_knn([dengue_dataset, chiku_dataset], 4)

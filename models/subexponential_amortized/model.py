@@ -3,12 +3,13 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 
 
-def subexponential_model(dataset, training_window, prediction_window, return_predictions=False):
+def subexponential_amort_model(dataset, training_window, prediction_window, return_predictions=False):
     dataset = dataset.copy()
     dataset['target'] = dataset['i_cases']
 
     predicted_values = []
     observed_values = []
+    dates = []
     # Iterate over the data with a sliding window
     for i in range(len(dataset) - training_window + 1):
         section = dataset.iloc[i:i + training_window]
@@ -31,9 +32,10 @@ def subexponential_model(dataset, training_window, prediction_window, return_pre
         filtered_dataset = dataset[dataset['t'].isin(test_t)]
         if filtered_dataset.shape[0] == test_t.shape[0]:
             predicted_values.append(y_pred[-1])
+            dates.append(test_t[-1])
             observed_values.append(np.log(filtered_dataset['target'].to_numpy()[-1] + 1e-8))
 
     if return_predictions:
-        return loss_function.loss_function(predicted_values, observed_values), observed_values, predicted_values
+        return loss_function.loss_function(predicted_values, observed_values), dates, observed_values, predicted_values
 
     return loss_function.loss_function(predicted_values, observed_values)

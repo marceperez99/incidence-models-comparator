@@ -54,7 +54,7 @@ def run_level(dataset, week):
                 f'{filename}.csv',
                 output_dir=f'outputs/{LOSS}/predictions/subexponential/{disease}/{level_name}/{classification}')
 
-    title = f"Modelo Exponencial ({dataset['disease'].iloc[0]})"
+    title = f"Modelo Subexponencial ({dataset['disease'].iloc[0]})"
     descripcion = f'VP:{week} semanas VE: {training_window} semanas'
     print(f"   📊 Generando gráficos de predicción y dispersión para {filename}")
     graphing.plot_observed_vs_predicted(y_true, y_pred, f'plt_obs_pred_{filename}',
@@ -107,5 +107,5 @@ def run_subexponential_multiprocess(datasets, weeks):
         with concurrent.futures.ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
             series = list(executor.map(run_level_wrapper, args_list))
             print(f"   🖼️ Graficando predicciones combinadas para {dataset['name'].iloc[0]}")
-            graphing.graficar_predicciones(dataset, series, method="subexponential")
+            graphing.graficar_predicciones(dataset, series, method="subexponential_amort")
     print("\n✅ Finalizó la ejecución de run_subexponential.")
