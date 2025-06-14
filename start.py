@@ -1,6 +1,6 @@
 import sys
 
-from models.artificial_neural_network import search_best_ann_architecture
+from artificial_neural_network import search_best_ann_architecture
 from genetic_algorithm.genetic_algorithm import GeneticAlgorithm
 from models.lstm import lstm_model
 from models.random_forest import random_forest_evaluator

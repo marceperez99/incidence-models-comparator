@@ -5,13 +5,12 @@ import numpy as np
 from evaluation.persist import save_as_csv
 from genetic_algorithm.genetic_algorithm import GeneticAlgorithm
 from genetic_algorithm.contants import GENERATIONS, POPULATION, MUTATION_PROBABILITY
+from utils import get_plot_directory, get_results_directory
 from .model import exponential_model
 from .utils import get_initial_population
 from evaluation import graphing, metrics
 import concurrent.futures
 import os
-
-LOSS = 'mape'
 
 
 def exponential_evaluator(dataset, weeks):
@@ -48,22 +47,23 @@ def run_level(dataset, week):
     disease = dataset['disease'].iloc[0].lower()
     level_name = dataset['name'].iloc[0].lower()
     classification = dataset['classification'].iloc[0].lower()
+    plot_directory = get_plot_directory(disease, level_name, classification, 'exponential')
+    results_directory = get_results_directory(disease, level_name, classification, 'exponential')
     filename = f"{dataset['name'].iloc[0]}_{dataset['classification'].iloc[0]}_{week}".lower()
-    print(f"   💾 Guardando resultados en outputs/{LOSS}/predictions/exponential/{disease}/{filename}.csv")
-    save_as_csv(pd.DataFrame({'Observed': y_true, 'Predicted': y_pred}),
-                f'{filename}.csv',
-                output_dir=f'outputs/{LOSS}/predictions/exponential/{disease}/{level_name}/{classification}')
+    print(f"   💾 Guardando resultados en {results_directory}")
+
+    save_as_csv(pd.DataFrame({'Observed': y_true, 'Predicted': y_pred}), f'{filename}.csv',
+                output_dir=results_directory)
 
     title = f"Modelo Exponencial ({dataset['disease'].iloc[0]})"
     descripcion = f'VP:{week} semanas VE: {training_window} semanas'
     print(f"   📊 Generando gráficos de predicción y dispersión para {filename}")
     graphing.plot_observed_vs_predicted(y_true, y_pred, f'plt_obs_pred_{filename}',
-                                        output_dir=f'outputs/{LOSS}/plots/exponential/{disease}/{level_name}/{classification}',
+                                        output_dir=plot_directory,
                                         title=title,
                                         description=descripcion)
     graphing.plot_scatter(y_true, y_pred, f'plt_scatter_{filename}', 'Exponential', title=title,
-                          description=descripcion,
-                          output_dir=f'outputs/{LOSS}/plots/exponential/{disease}/{level_name}/{classification}')
+                          description=descripcion, output_dir=plot_directory)
     print(f"   📝 Log de métricas del modelo para {filename}")
     metrics.log_model_metrics('Exponential', disease, dataset['classification'].iloc[0],
                               dataset['name'].iloc[0], week, mae=mae, mape=mape, nrmse=nrmse, loss=loss, rmse=rmse,

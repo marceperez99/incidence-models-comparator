@@ -5,14 +5,12 @@ import numpy as np
 from evaluation.persist import save_as_csv
 from genetic_algorithm.genetic_algorithm import GeneticAlgorithm
 from genetic_algorithm.contants import GENERATIONS, POPULATION, MUTATION_PROBABILITY
+from utils import get_plot_directory, get_results_directory
 from .model import subexponential_amort_model
 from .utils import get_initial_population
 from evaluation import graphing, metrics
 import concurrent.futures
 import os
-
-LOSS = 'mape'
-
 
 def subexponential_amort_evaluator(dataset, weeks):
     @functools.cache
@@ -48,21 +46,20 @@ def run_level(dataset, week):
     disease = dataset['disease'].iloc[0].lower()
     level_name = dataset['name'].iloc[0].lower()
     classification = dataset['classification'].iloc[0].lower()
+    plot_directory = get_plot_directory(disease, level_name, classification, 'subexponential_amort')
+    results_directory = get_results_directory(disease, level_name, classification, 'subexponential_amort')
     filename = f"{dataset['name'].iloc[0]}_{dataset['classification'].iloc[0]}_{week}".lower()
-    print(f"   💾 Guardando resultados en outputs/{LOSS}/predictions/subexponential_amort/{disease}/{filename}.csv")
+    print(f"   💾 Guardando resultados en {results_directory}/{filename}")
     save_as_csv(pd.DataFrame({'Observed': y_true, 'Predicted': y_pred}),
-                f'{filename}.csv',
-                output_dir=f'outputs/{LOSS}/predictions/subexponential_amort/{disease}/{level_name}/{classification}')
+                f'{filename}.csv', output_dir=results_directory)
 
     title = f"Modelo Subexponencial Amortizado ({dataset['disease'].iloc[0]})"
     descripcion = f'VP:{week} semanas VE: {training_window} semanas'
     print(f"   📊 Generando gráficos de predicción y dispersión para {filename}")
-    graphing.plot_observed_vs_predicted(y_true, y_pred, f'plt_obs_pred_{filename}',
-                                        output_dir=f'outputs/{LOSS}/plots/subexponential_amort/{disease}/{level_name}/{classification}',
+    graphing.plot_observed_vs_predicted(y_true, y_pred, f'plt_obs_pred_{filename}', output_dir=plot_directory,
                                         title=title, description=descripcion)
     graphing.plot_scatter(y_true, y_pred, f'plt_scatter_{filename}', 'Subexponencial Amortizado', title=title,
-                          description=descripcion,
-                          output_dir=f'outputs/{LOSS}/plots/subexponential_amort/{disease}/{level_name}/{classification}')
+                          description=descripcion, output_dir=plot_directory)
     print(f"   📝 Log de métricas del modelo para {filename}")
     metrics.log_model_metrics('SubExponential Amortized', disease, dataset['classification'].iloc[0],
                               dataset['name'].iloc[0], week, mae=mae, mape=mape, nrmse=nrmse, loss=loss, rmse=rmse,
@@ -82,7 +79,7 @@ def run_subexponential_amort(datasets, weeks):
 
         print(f"   🖼️ Graficando predicciones combinadas para {dataset['name'].iloc[0]}")
         graphing.graficar_predicciones(dataset, series)
-    print("\n✅ Finalizó la ejecución de run_subexponential.")
+    print("\n✅ Finalizó la ejecución de run_subexponential_amort.")
 
 
 def run_level_wrapper(args):
@@ -107,5 +104,5 @@ def run_subexponential_amortized_multiprocess(datasets, weeks):
         with concurrent.futures.ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
             series = list(executor.map(run_level_wrapper, args_list))
             print(f"   🖼️ Graficando predicciones combinadas para {dataset['name'].iloc[0]}")
-            graphing.graficar_predicciones(dataset, series, method="subexponential")
-    print("\n✅ Finalizó la ejecución de run_subexponential.")
+            graphing.graficar_predicciones(dataset, series, method="subexponential_amort")
+    print("\n✅ Finalizó la ejecución de run_subexponential_amortized.")

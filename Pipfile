@@ -11,6 +11,7 @@ pmdarima = "2.0.4"
 numpy = "==1.26.4"
 pandas = "*"
 seaborn = "*"
+keras-tuner = "*"
 
 [dev-packages]
 

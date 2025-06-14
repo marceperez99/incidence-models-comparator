@@ -50,11 +50,11 @@ def run_level(dataset, week_i):
     classification = dataset['classification'].iloc[0].lower()
     filename = f"{dataset['name'].iloc[0]}_{dataset['classification'].iloc[0]}_{week_i}".lower()
     save_as_csv(pd.DataFrame({'Observed': y_true, 'Predicted': y_pred}),
-                f'{filename}.csv', output_dir=get_results_directory(disease, level_name, classification, 'knn', 'MAPE'))
+                f'{filename}.csv', output_dir=get_results_directory(disease, level_name, classification, 'knn'))
 
     title = f"Modelo KNN ({dataset['disease'].iloc[0]})"
     descripcion = f'VP:{week_i} semanas VE: {training_window} semanas, Neighbours: {n_neighbors}'
-    plot_directory = get_plot_directory(disease, level_name, classification, 'knn', 'MAPE')
+    plot_directory = get_plot_directory(disease, level_name, classification, 'knn')
 
     graphing.plot_observed_vs_predicted(y_true, y_pred, f'plt_obs_pred_{filename}',
                                         output_dir=plot_directory, title=title, description=descripcion)

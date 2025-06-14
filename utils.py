@@ -6,6 +6,8 @@ import datetime
 import os
 from typing import List, Optional
 
+from constants import LOSS_METRIC
+
 
 def get_dataset(path, filter_levels: Optional[List[str]] = None,
                 filter_diseases: Optional[List[str]] = None,
@@ -86,8 +88,8 @@ def log_experiment(parameters: dict, loss: float, algorithm: str, filename="expe
         writer.writerow([timestamp, dataset, algorithm, loss, parameters_str])
 
 
-def get_plot_directory(disease, level, classification, method, metric):
-    return f'outputs/plots/{metric}/{method}/{disease}/{level}/{classification}'
+def get_plot_directory(disease, level, classification, method):
+    return f'outputs/plots/{LOSS_METRIC}/{method}/{disease}/{level}/{classification}'
 
-def get_results_directory(disease, level, classification, method, metric):
-    return f'outputs/predictions/{metric}/{method}/{disease}/{level}/{classification}'
+def get_results_directory(disease, level, classification, method):
+    return f'outputs/predictions/{LOSS_METRIC}/{method}/{disease}/{level}/{classification}'
