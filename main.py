@@ -1,19 +1,21 @@
 # main.py
 
 import argparse
-import pandas as pd
-from evaluation import graphing
-from models.lstm.evaluation import run_lstm
-from models.random_forest.evaluation import run_random_forest
-from models.subexponential.evaluation import run_subexponential, run_subexponential_multiprocess
+
+from models.lstm.evaluation import run_lstm_multiprocess
+from models.random_forest.evaluation import run_random_forest_multiprocess
+from models.subexponential.evaluation import  run_subexponential_multiprocess
 from models.subexponential_amortized.evaluation import run_subexponential_amortized_multiprocess
-from models.svr.evaluation import run_svr
+from models.svr.evaluation import  run_svr_multiprocess
 from models.exponential.evaluation import run_exponential_multiprocess
 from models.knn.evaluation import  run_knn_multiprocess
-from models.ann.evaluation import run_ann
 from models.autoarima.evaluation import run_autoarima
-
+from models.ann.evaluation import run_mlp_multiprocess
 from utils import get_dataset
+import shutil
+
+
+# shutil.rmtree('temp/', ignore_errors=True)
 
 
 def parse_args():
@@ -48,34 +50,17 @@ def main():
     full_dataset = [grupo.copy() for _, grupo in full_dataset.groupby('id_proy')]
 
     if "ann" in args.models:
-        full_dataset = get_dataset("data/case_data_full.csv")
-        architectures = [
-            [16, 8],
-            [32, 16],
-            [32, 16, 8],
-            [64, 32],
-            [64, 32, 16],
-            [32, 32],
-            [16],  # muy simple, buen baseline
-            [128, 64, 32],  # más profunda, solo si no hay sobreajuste
-        ]
-        best_loss, y_true, y_pred, best_config = run_ann(full_dataset, 4, 4, architectures)
-        graphing.plot_observed_vs_predicted(y_true, y_pred, f'plt_eval_ann', 'outputs/plots/ann/dengue', title='ANN',
-                                            description='descripcion')
-        graphing.plot_scatter(y_true, y_pred, f'plt_scatter_ann', 'Random Forest', title='ANN',
-                              description='descripcion', output_dir=f'outputs/plots/ann/dengue')
+        run_mlp_multiprocess(full_dataset, 4)
+        pass
 
     if "lstm" in args.models:
-        full_dataset = get_dataset("data/case_data_full.csv.csv")
-
-        run_lstm(full_dataset, test_id_proy="CENTRAL-DENGUE-CONFIRMADO", sequence_length=8, prediction_window=4,
-                 epochs=200)
+        run_lstm_multiprocess(full_dataset, 4)
 
     if "rf" in args.models:
-        run_random_forest([dengue_dataset, ], 4)
+        run_random_forest_multiprocess(full_dataset, 4)
 
     if "svr" in args.models:
-        run_svr([dengue_dataset, chiku_dataset], 4)
+        run_svr_multiprocess(full_dataset, 4)
 
     if "autoarima" in args.models:
         run_autoarima(full_dataset, 4)

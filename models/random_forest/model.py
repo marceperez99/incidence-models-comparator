@@ -2,18 +2,18 @@ from metrics import loss_function
 import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 
-
-
 def random_forest_model(dataset, training_window, prediction_window, n_estimators, max_depth, return_predictions=False):
+    print("🔹 [1] Preparando dataset para Random Forest...")
     dataset = dataset.copy()
     dataset['target'] = dataset['i_cases']
     dataset = dataset.sort_values(by='t')
     dataset = dataset.set_index('t')  # mejora para acceso rápido
     predicted_values = []
     observed_values = []
-    print(
-        f'training_window={training_window}, prediction_window={prediction_window}, n_estimators={n_estimators}, max_depth={max_depth}')
-    for i in range(len(dataset) - training_window - prediction_window + 1):  # Fix loop range
+    dates = []
+
+
+    for i in range(len(dataset) - training_window - prediction_window + 1):
 
         section = dataset.iloc[i:i + training_window]
 
@@ -36,14 +36,22 @@ def random_forest_model(dataset, training_window, prediction_window, n_estimator
         try:
             real_y = dataset.loc[future_t]['target'].values
         except KeyError:
+            print("     ⚠️  Fechas futuras no disponibles en los datos reales. Saltando ventana.")
             continue  # si faltan datos reales, salta la iteración
 
         if len(real_y) == len(test_y):
             predicted_values.append(test_y[-1])
             observed_values.append(real_y[-1])
+            dates.append(test_x[-1])
+        else:
+            print("     ⚠️  Longitudes predicho/real no coinciden. Saltando ventana.")
+
 
     # Compute and return the loss function (e.g., MAE)
-    if return_predictions:
-        return loss_function.loss_function(predicted_values, observed_values), observed_values, predicted_values
+    final_loss = loss_function.loss_function(predicted_values, observed_values)
 
-    return loss_function.loss_function(predicted_values, observed_values)
+
+    if return_predictions:
+        return final_loss, dates, observed_values, predicted_values
+
+    return final_loss

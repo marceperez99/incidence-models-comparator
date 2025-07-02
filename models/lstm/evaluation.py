@@ -1,91 +1,74 @@
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense, Dropout, Input
-from tensorflow.keras.callbacks import EarlyStopping
-import matplotlib.pyplot as plt
+import pandas as pd
+
+from sklearn.metrics import mean_absolute_error, mean_squared_error, mean_absolute_percentage_error
 import numpy as np
+from evaluation.persist import save_as_csv
+from .model import lstm_model
+from utils import get_plot_directory, get_results_directory
+from evaluation import graphing, metrics
+import concurrent.futures
+import os
 
-from metrics.loss_function import loss_function
-from models.lstm.utils import preprocess_lstm_sequences
+
+def run_level(dataset, week):
+    training_window = 4
+    loss, x, y_true, y_pred, arquitectura = lstm_model(dataset, training_window, week, return_predictions=True)
+    mae = mean_absolute_error(y_true, y_pred)
+    mape = mean_absolute_percentage_error(y_true, y_pred)
+    rmse = np.sqrt(mean_squared_error(y_true, y_pred))
+    nrmse = rmse / np.mean(y_true)
+
+    y_pred = y_pred
+    y_true = y_true
+
+    # saving results
+    disease = dataset['disease'].iloc[0].lower()
+    level_name = dataset['name'].iloc[0].lower()
+    classification = dataset['classification'].iloc[0].lower()
+    plot_directory = get_plot_directory(disease, level_name, classification, 'lstm')
+    results_directory = get_results_directory(disease, level_name, classification, 'lstm')
+    filename = f"{dataset['name'].iloc[0]}_{dataset['classification'].iloc[0]}_{week}".lower()
+    print(f"   💾 Guardando resultados en {results_directory}")
+    save_as_csv(pd.DataFrame({'Observed': y_true, 'Predicted': y_pred}), f'{filename}.csv',
+                output_dir=results_directory)
+
+    title = f"Modelo LSTM ({dataset['disease'].iloc[0]})"
+    descripcion = f'VP:{week} semanas VE: {training_window} semanas'
+    print(f"   📊 Generando gráficos de predicción y dispersión para {filename}")
+    graphing.plot_observed_vs_predicted(y_true, y_pred, f'plt_obs_pred_{filename}', output_dir=plot_directory,
+                                        title=title, description=descripcion)
+    graphing.plot_scatter(y_true, y_pred, f'plt_scatter_{filename}', 'lstm', title=title,
+                          description=descripcion, output_dir=plot_directory)
+    print(f"   📝 Log de métricas del modelo para {filename}")
+    metrics.log_model_metrics('LSTM', disease, dataset['classification'].iloc[0],
+                              dataset['name'].iloc[0], week, mae=mae, mape=mape, nrmse=nrmse, loss=loss, rmse=rmse,
+                              hyperparams={'training_window': training_window, 'prediction_window': week,
+                                           'network': arquitectura})
+
+    return x, y_true, y_pred
 
 
-def run_lstm(
-    dataset,
-    test_id_proy: str = "CENTRAL-DENGUE-CONFIRMADO",
-    sequence_length: int = 8,
-    prediction_window: int = 1,
-    epochs: int = 150,
-    batch_size: int = 32
-):
+def run_level_wrapper(args):
+    dataset, week = args
+    x, y_true, y_pred = run_level(dataset, week)
+    return [week, x, y_pred]
+
+
+def run_lstm_multiprocess(datasets, weeks):
     """
-    Entrena y evalúa un modelo LSTM sobre series temporales con separación por id_proy.
-
-    Args:
-        dataset (DataFrame): Datos originales.
-        test_id_proy (str): ID del proyecto a usar como test.
-        sequence_length (int): Longitud de cada secuencia (timesteps).
-        prediction_window (int): A cuántos pasos predecir.
-        epochs (int): Número de épocas de entrenamiento.
-        batch_size (int): Tamaño de lote.
+    Ejecuta run_exponential sobre cada dataset en paralelo usando procesos.
+    - datasets: lista de DataFrames
+    - weeks: entero
     """
-    # Preprocesamiento
-    X, y, feature_names, id_series = preprocess_lstm_sequences(dataset, sequence_length, prediction_window)
+    print(f"\n⚡ Ejecutando en paralelo con {os.cpu_count()} procesos disponibles ({len(datasets)} datasets)...")
 
-    # Separar train y test
-    X_train = X[id_series != test_id_proy]
-    y_train = y[id_series != test_id_proy]
-    X_test = X[id_series == test_id_proy]
-    y_test = y[id_series == test_id_proy]
+    for i, dataset in enumerate(datasets):
+        print(
+            f"\n🚩 Procesando dataset {i + 1}/{len(datasets)}: {dataset['name'].iloc[0]} ({dataset['disease'].iloc[0]}, {dataset['classification'].iloc[0]})")
+        args_list = [(dataset, i) for i in range(1, weeks + 1)]
 
-    # Modelo LSTM
-
-    # model = Sequential([
-    #     Input(shape=(sequence_length, X.shape[2])),
-    #     LSTM(32, return_sequences=True),  # captura secuencia completa
-    #     Dropout(0.3),  # regularización
-    #     LSTM(16),  # reducción para generalizar
-    #     Dense(8, activation='relu'),  # capa intermedia
-    #     Dense(1)  # salida (regresión)
-    # ])
-    model = Sequential([
-        Input(shape=(5, X.shape[2])),  # 5 timesteps, n features
-        LSTM(32, return_sequences=False),  # más unidades que el original
-        Dropout(0.2),  # regularización
-        Dense(16, activation='relu'),
-        Dense(1)  # salida para regresión
-    ])
-    model.compile(optimizer='adam', loss='mse', metrics=['mae'])
-
-
-    early_stop = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
-    print(f"🔹 Train samples: {X_train.shape[0]} | Test samples: {X_test.shape[0]}")
-    model.fit(
-        X_train, y_train,
-        epochs=epochs,
-        batch_size=batch_size,
-        validation_data=(X_test, y_test),
-        callbacks=[early_stop],
-        verbose=0
-    )
-
-    # Predicción y evaluación
-    y_pred = model.predict(X_test).flatten()
-    y_pred = y_pred.tolist()
-    y_test = y_test.tolist()
-
-    loss = loss_function(y_pred, y_test)
-
-    print(f"📉 LSTM Loss: {loss:.4f}")
-
-    # Gráfico
-    plt.figure(figsize=(10, 5))
-    plt.plot(y_test, label='Observado')
-    plt.plot(y_pred, label='Predicho')
-    plt.title('LSTM - Observado vs Predicho')
-    plt.xlabel('Muestras')
-    plt.ylabel('Número de casos')
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
-    plt.show()
-
-    return loss
+        with concurrent.futures.ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
+            series = list(executor.map(run_level_wrapper, args_list))
+            print(f"   🖼️ Graficando predicciones combinadas para {dataset['name'].iloc[0]}")
+            graphing.graficar_predicciones(dataset, series, method="lstm")
+    print("\n✅ Finalizó la ejecución de run_lstm.")

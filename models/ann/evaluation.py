@@ -1,39 +1,71 @@
-from tensorflow import keras
-from metrics.loss_function import loss_function
-from .utils import preprocess_ann_data, build_ann
+import pandas as pd
+
+from sklearn.metrics import mean_absolute_error, mean_squared_error, mean_absolute_percentage_error
+import numpy as np
+from evaluation.persist import save_as_csv
+from .model import mlp_model  # <--- Cambiado aquí
+from utils import get_plot_directory, get_results_directory
+from evaluation import graphing, metrics
+import concurrent.futures
+import os
 
 
-def run_ann(dataset, training_window, prediction_window, architectures, epochs=150, batch_size=64):
-    dataset, feature_names = preprocess_ann_data(dataset, training_window, prediction_window)
-    train = dataset[dataset['id_proy'] != "CENTRAL-DENGUE-CONFIRMADO"]
-    test = dataset[dataset['id_proy'] == "CENTRAL-DENGUE-CONFIRMADO"]
+def run_level(dataset, week):
+    training_window = 4
+    loss, x, y_true, y_pred, arquitectura = mlp_model(dataset, training_window, week, return_predictions=True)  # <--- Cambiado aquí
+    mae = mean_absolute_error(y_true, y_pred)
+    mape = mean_absolute_percentage_error(y_true, y_pred)
+    rmse = np.sqrt(mean_squared_error(y_true, y_pred))
+    nrmse = rmse / np.mean(y_true)
 
-    x_train, x_test, y_train, y_test = train[feature_names].values, test[feature_names].values, train[
-        'prediction'].values, test['prediction'].values
+    # saving results
+    disease = dataset['disease'].iloc[0].lower()
+    level_name = dataset['name'].iloc[0].lower()
+    classification = dataset['classification'].iloc[0].lower()
+    plot_directory = get_plot_directory(disease, level_name, classification, 'mlp')  # <--- Cambiado aquí
+    results_directory = get_results_directory(disease, level_name, classification, 'mlp')  # <--- Cambiado aquí
+    filename = f"{dataset['name'].iloc[0]}_{dataset['classification'].iloc[0]}_{week}".lower()
+    print(f"   💾 Guardando resultados en {results_directory}")
+    save_as_csv(pd.DataFrame({'Observed': y_true, 'Predicted': y_pred}), f'{filename}.csv',
+                output_dir=results_directory)
 
-    best_loss = float('inf')
-    best_model = None
-    best_config = None
-    best_predictions = None
+    title = f"Modelo MLP ({dataset['disease'].iloc[0]})"  # <--- Cambiado aquí
+    descripcion = f'VP:{week} semanas VE: {training_window} semanas'
+    print(f"   📊 Generando gráficos de predicción y dispersión para {filename}")
+    graphing.plot_observed_vs_predicted(y_true, y_pred, f'plt_obs_pred_{filename}', output_dir=plot_directory,
+                                        title=title, description=descripcion)
+    graphing.plot_scatter(y_true, y_pred, f'plt_scatter_{filename}', 'mlp', title=title,  # <--- Cambiado aquí
+                          description=descripcion, output_dir=plot_directory)
+    print(f"   📝 Log de métricas del modelo para {filename}")
+    metrics.log_model_metrics('MLP', disease, dataset['classification'].iloc[0],  # <--- Cambiado aquí
+                              dataset['name'].iloc[0], week, mae=mae, mape=mape, nrmse=nrmse, loss=loss, rmse=rmse,
+                              hyperparams={'training_window': training_window, 'prediction_window': week,
+                                           'network': arquitectura})
 
-    for config in architectures:
-        print(f"🔍 Probando arquitectura: {config}")
+    return x, y_true, y_pred
 
-        model = build_ann(len(feature_names), layers_config=config)
 
-        early_stop = keras.callbacks.EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
-        model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size,
-                  validation_data=(x_test, y_test), callbacks=[early_stop], verbose=0)
+def run_level_wrapper(args):
+    dataset, week = args
+    x, y_true, y_pred = run_level(dataset, week)
+    return [week, x, y_pred]
 
-        predictions = model.predict(x_test).flatten()
-        loss = loss_function(predictions.tolist(), y_test.tolist())
 
-        print(f"📉 Loss actual: {loss}")
+def run_mlp_multiprocess(datasets, weeks):  # <--- Cambiado aquí
+    """
+    Ejecuta run_mlp sobre cada dataset en paralelo usando procesos.
+    - datasets: lista de DataFrames
+    - weeks: entero
+    """
+    print(f"\n⚡ Ejecutando en paralelo con {os.cpu_count()} procesos disponibles ({len(datasets)} datasets)...")
 
-        if loss < best_loss:
-            best_loss = loss
-            best_predictions = predictions.copy().tolist()
-            best_config = config
+    for i, dataset in enumerate(datasets):
+        print(
+            f"\n🚩 Procesando dataset {i + 1}/{len(datasets)}: {dataset['name'].iloc[0]} ({dataset['disease'].iloc[0]}, {dataset['classification'].iloc[0]})")
+        args_list = [(dataset, i) for i in range(1, weeks + 1)]
 
-    print(f"\n✅ Mejor arquitectura: {best_config} con loss: {best_loss}")
-    return best_loss, y_test, best_predictions, best_config
+        with concurrent.futures.ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
+            series = list(executor.map(run_level_wrapper, args_list))
+            print(f"   🖼️ Graficando predicciones combinadas para {dataset['name'].iloc[0]}")
+            graphing.graficar_predicciones(dataset, series, method="mlp")  # <--- Cambiado aquí
+    print("\n✅ Finalizó la ejecución de run_mlp.")  # <--- Cambiado aquí

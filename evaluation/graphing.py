@@ -120,7 +120,13 @@ def graficar_predicciones(
     - pie_dict: dict (opcional), claves/valores para agregar como pie del gráfico
     """
     plt.figure(figsize=(8, 5))
-    plt.plot(dataset['t'], dataset['i_cases'], label='Observado')
+    t_min = min(x[0] for _, x, _ in predictions)
+    t_max = max(x[-1] for _, x, _ in predictions)
+    mask = (dataset['t'] >= t_min) & (dataset['t'] <= t_max)
+    dataset_recortado = dataset[mask]
+    plt.plot(dataset_recortado['t'], dataset_recortado['i_cases'], label='Observado')
+
+    # plt.plot(dataset['t'], dataset['i_cases'], label='Observado')
     for semana, x, y in predictions:
         plt.plot(x, y, label=f'Predicción a {semana} semanas')
 
@@ -139,7 +145,7 @@ def graficar_predicciones(
     disease = dataset['disease'].iloc[0].lower()
     level = dataset['name'].iloc[0].lower()
     classification = dataset['classification'].iloc[0].lower()
-    directory = f'outputs/{LOSS}/plots/{method}/{disease}/{level}/{classification}'
+    directory = f'outputs/plots/{LOSS}/{method}/{disease}/{level}/{classification}'
     os.makedirs(directory, exist_ok=True)
     archivo_salida = f'{directory}/nro_de_casos.png'
 

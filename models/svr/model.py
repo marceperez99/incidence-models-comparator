@@ -10,6 +10,7 @@ def svr_model(dataset, training_window, prediction_window, c, epsilon, return_pr
 
     predicted_values = []
     observed_values = []
+    dates = []
 
     dataset = dataset.sort_values(by=['t'])
     dataset = dataset.set_index('t')  # al principio
@@ -39,10 +40,11 @@ def svr_model(dataset, training_window, prediction_window, c, epsilon, return_pr
         if filtered_dataset.shape[0] == len(test_x):
             predicted_values.append(max(0, test_y[-1]))
             observed_values.append(filtered_dataset['target'].values[-1])
+            dates.append(test_x[-1])
 
     # Compute and return the loss function (e.g., MAE)
     if return_predictions:
-        return loss_function.loss_function(predicted_values, observed_values), observed_values, predicted_values
+        return loss_function.loss_function(predicted_values, observed_values), dates, observed_values, predicted_values
 
     return loss_function.loss_function(predicted_values, observed_values)
 
