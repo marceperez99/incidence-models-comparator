@@ -102,5 +102,5 @@ def run_svr_multiprocess(datasets, weeks):
         with concurrent.futures.ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
             series = list(executor.map(run_level_wrapper, args_list))
             print(f"   🖼️ Graficando predicciones combinadas para {dataset['name'].iloc[0]}")
-            graphing.graficar_predicciones(dataset, series)
+            graphing.graficar_predicciones(dataset, series, method='svr')
     print("\n✅ Finalizó la ejecución de run_svr.")

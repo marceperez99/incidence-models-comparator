@@ -4,7 +4,7 @@ import seaborn as sns
 import pandas as pd
 import os
 
-LOSS = 'mape'
+from constants import LOSS_METRIC
 
 observed_color = '#F08700'  # azul noche
 predicted_color = '#457B9D'  # rojo suave
@@ -145,7 +145,7 @@ def graficar_predicciones(
     disease = dataset['disease'].iloc[0].lower()
     level = dataset['name'].iloc[0].lower()
     classification = dataset['classification'].iloc[0].lower()
-    directory = f'outputs/plots/{LOSS}/{method}/{disease}/{level}/{classification}'
+    directory = f'outputs/plots/{LOSS_METRIC}/{method}/{disease}/{level}/{classification}'
     os.makedirs(directory, exist_ok=True)
     archivo_salida = f'{directory}/nro_de_casos.png'
 

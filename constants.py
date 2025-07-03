@@ -1,1 +1,1 @@
-LOSS_METRIC = 'mape'
+LOSS_METRIC = 'mae'

@@ -4,20 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c06e29d6-bfc2-42dd-884f-195c259fe773" name="Changes" comment="ajustes a modelos">
-      <change afterPath="$PROJECT_DIR$/lstm.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/ann/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/ann/model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/lstm/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="c06e29d6-bfc2-42dd-884f-195c259fe773" name="Changes" comment="agrega implementaciones de lstm y ann">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/artificial_neural_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/artificial_neural_network.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/constants.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/evaluation/graphing.py" beforeDir="false" afterPath="$PROJECT_DIR$/evaluation/graphing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/ann/evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/ann/evaluation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/lstm/evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/lstm/evaluation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/random_forest/evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/random_forest/evaluation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/random_forest/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/random_forest/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genetic_algorithm/contants.py" beforeDir="false" afterPath="$PROJECT_DIR$/genetic_algorithm/contants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/metrics/loss_function.py" beforeDir="false" afterPath="$PROJECT_DIR$/metrics/loss_function.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/autoarima/evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/autoarima/evaluation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/autoarima/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/autoarima/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/exponential/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/exponential/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/knn/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/knn/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/subexponential/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/subexponential/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/subexponential_amortized/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/subexponential_amortized/model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/svr/evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/svr/evaluation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/svr/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/svr/model.py" afterDir="false" />
     </list>
@@ -107,7 +105,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
-      <option name="PARAMETERS" value="--models ann --case_types CONFIRMADO --level_names CENTRAL --diseases DENGUE" />
+      <option name="PARAMETERS" value="--models exp --case_types CONFIRMADO --level_names CENTRAL --diseases DENGUE" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -185,7 +183,7 @@
       <workItem from="1745276250590" duration="6449000" />
       <workItem from="1748563317444" duration="3177000" />
       <workItem from="1748872570825" duration="66225000" />
-      <workItem from="1751315645047" duration="16662000" />
+      <workItem from="1751315645047" duration="26050000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -371,7 +369,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749906189279</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="agrega implementaciones de lstm y ann">
+      <option name="closed" value="true" />
+      <created>1751418957634</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1751418957634</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -412,7 +418,8 @@
     <MESSAGE value="agrega multiprocessing a subexp amort y autoarima" />
     <MESSAGE value="agrega multiprocessing a knn" />
     <MESSAGE value="ajustes a modelos" />
-    <option name="LAST_COMMIT_MESSAGE" value="ajustes a modelos" />
+    <MESSAGE value="agrega implementaciones de lstm y ann" />
+    <option name="LAST_COMMIT_MESSAGE" value="agrega implementaciones de lstm y ann" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -448,7 +455,7 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/incidence_models_comparator$Run.coverage" NAME="Run Coverage Results" MODIFIED="1751415884423" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/incidence_models_comparator$Run.coverage" NAME="Run Coverage Results" MODIFIED="1751502315163" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/model_comparison$Run.coverage" NAME="Run Coverage Results" MODIFIED="1741300416655" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/model_comparison$artificial_neural_network.coverage" NAME="artificial_neural_network Coverage Results" MODIFIED="1739836722809" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/models" />
     <SUITE FILE_PATH="coverage/model_comparison$start.coverage" NAME="start Coverage Results" MODIFIED="1739039602164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

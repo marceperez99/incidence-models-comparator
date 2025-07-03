@@ -33,6 +33,6 @@ def exponential_model(dataset, training_window, prediction_window, return_predic
 
         # Compute and return the loss function (e.g., MAE)
     if return_predictions:
-        return loss_function.loss_function(predicted_values, observed_values), dates, observed_values, predicted_values
+        return loss_function.loss_function(observed_values, predicted_values), dates, observed_values, predicted_values
 
-    return loss_function.loss_function(predicted_values, observed_values)
+    return loss_function.loss_function(observed_values, predicted_values)
