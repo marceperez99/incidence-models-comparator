@@ -152,5 +152,3 @@ def graficar_predicciones(
     plt.savefig(archivo_salida, bbox_inches='tight')
     plt.close()
 
-# Ejemplo de uso:
-# graficar_predicciones(dataset, series, "mi_grafico.png", {"Departamento": "Central", "Año": 2023})

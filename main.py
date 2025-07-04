@@ -49,33 +49,32 @@ def main():
 
     full_dataset = [grupo.copy() for _, grupo in full_dataset.groupby('id_proy')]
 
-    if "ann" in args.models:
-        run_mlp_multiprocess(full_dataset, 4)
-        pass
-
-    if "lstm" in args.models:
-        run_lstm_multiprocess(full_dataset, 4)
-
-    if "rf" in args.models:
-        run_random_forest_multiprocess(full_dataset, 4)
-
-    if "svr" in args.models:
-        run_svr_multiprocess(full_dataset, 4)
-
-    if "autoarima" in args.models:
-        run_autoarima(full_dataset, 4)
-
-    if "exp" in args.models:
+    if "exp" in args.models or "all" in args.models:
         run_exponential_multiprocess(full_dataset, 4)
 
-    if "subexp" in args.models:
+    if "subexp" in args.models or "all" in args.models:
         run_subexponential_multiprocess(full_dataset, 4)
 
-    if "subexp-amort" in args.models:
+    if "subexp-amort" in args.models or "all" in args.models:
         run_subexponential_amortized_multiprocess(full_dataset, 4)
 
-    if "knn" in args.models:
+    if "svr" in args.models or "all" in args.models:
+        run_svr_multiprocess(full_dataset, 4)
+
+    if "autoarima" in args.models or "all" in args.models:
+        run_autoarima(full_dataset, 4)
+
+    if "knn" in args.models or "all" in args.models:
         run_knn_multiprocess(full_dataset, 4)
+
+    if "ann" in args.models or "all" in args.models:
+        run_mlp_multiprocess(full_dataset, 4)
+
+    if "lstm" in args.models or "all" in args.models:
+        run_lstm_multiprocess(full_dataset, 4)
+
+    if "rf" in args.models or "all" in args.models:
+        run_random_forest_multiprocess(full_dataset, 4)
 
 
 if __name__ == "__main__":
