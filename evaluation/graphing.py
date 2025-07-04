@@ -23,6 +23,7 @@ def plot_mae_bar(model_names: List[str], mae_scores: List[float], output_dir: st
 
 
 def plot_observed_vs_predicted(
+        x,
         y_true: List[float],
         y_pred: List[float],
         filename: str,
@@ -33,8 +34,8 @@ def plot_observed_vs_predicted(
     os.makedirs(output_dir, exist_ok=True)
 
     fig, ax = plt.subplots(figsize=(10, 5))
-    ax.plot(y_true, label='Observado', color=observed_color)
-    ax.plot(y_pred, label='Predicho', color=predicted_color)
+    ax.plot(x, y_true, label='Observado', color=observed_color)
+    ax.plot(x, y_pred, label='Predicho', color=predicted_color)
 
     ax.set_title(title)
     ax.set_xlabel('Semana')
@@ -57,6 +58,9 @@ def plot_observed_vs_predicted(
 def plot_scatter(y_true: List[float], y_pred: List[float], filename: str, model_name: str,
                  output_dir: str = 'outputs/plots', title: str = "", description: str = "") -> None:
     os.makedirs(output_dir, exist_ok=True)
+
+
+
 
     fig, ax = plt.subplots(figsize=(6, 6))
     ax.scatter(y_true, y_pred, alpha=0.7, label=model_name, color=predicted_color)
@@ -104,34 +108,53 @@ def plot_metrics_heatmap(model_names: List[str], mae_scores: List[float], rmse_s
     plt.savefig(f'{output_dir}/heatmap_metricas.png')
     plt.close()
 
+
+import matplotlib.pyplot as plt
+import os
+
+
+import matplotlib.pyplot as plt
+import os
+import pandas as pd
+
 def graficar_predicciones(
     dataset,
     predictions,
     pie_dict=None,
-    method = 'exponential'
+    method='exponential'
 ):
     """
     Genera y guarda un gráfico de comparación entre casos observados y predicciones.
 
     Parámetros:
-    - dataset: DataFrame con las columnas 't' (tiempo/semana) e 'i_cases' (observado)
-    - predictions: lista de tuplas (n_semanas, x, y), donde x e y son arrays para cada predicción
-    - archivo_salida: str, ruta donde se guardará la imagen (ej: 'grafico.png')
+    - dataset: DataFrame con las columnas 't', 'date', 'i_cases'
+    - predictions: lista de tuplas (n_semanas, x_t_values, y), donde x_t_values contiene valores de 't'
     - pie_dict: dict (opcional), claves/valores para agregar como pie del gráfico
     """
-    plt.figure(figsize=(8, 5))
+    plt.figure(figsize=(10, 5))
+
+    # Aseguramos que las fechas sean datetime
+    dataset['date'] = pd.to_datetime(dataset['date'])
+
+    # Creamos un mapa de t -> date
+    t_to_date = dict(zip(dataset['t'], dataset['date']))
+
+    # Determinar rango para la serie observada
     t_min = min(x[0] for _, x, _ in predictions)
     t_max = max(x[-1] for _, x, _ in predictions)
     mask = (dataset['t'] >= t_min) & (dataset['t'] <= t_max)
     dataset_recortado = dataset[mask]
-    plt.plot(dataset_recortado['t'], dataset_recortado['i_cases'], label='Observado')
 
-    # plt.plot(dataset['t'], dataset['i_cases'], label='Observado')
-    for semana, x, y in predictions:
-        plt.plot(x, y, label=f'Predicción a {semana} semanas')
+    # Serie observada
+    plt.plot(dataset_recortado['date'], dataset_recortado['i_cases'], label='Observado')
+
+    # Predicciones
+    for semana, x_t, y in predictions:
+        x_dates = [t_to_date.get(ti, pd.NaT) for ti in x_t]
+        plt.plot(x_dates, y, label=f'Predicción a {semana} semanas')
 
     plt.title("Número de casos predichos")
-    plt.xlabel("Semana")
+    plt.xlabel("Fecha")
     plt.ylabel("Número de casos")
     plt.legend()
     plt.grid(True)
@@ -151,4 +174,3 @@ def graficar_predicciones(
 
     plt.savefig(archivo_salida, bbox_inches='tight')
     plt.close()
-

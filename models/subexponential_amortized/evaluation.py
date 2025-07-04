@@ -56,7 +56,9 @@ def run_level(dataset, week):
     title = f"Modelo Subexponencial Amortizado ({dataset['disease'].iloc[0]})"
     descripcion = f'VP:{week} semanas VE: {training_window} semanas'
     print(f"   📊 Generando gráficos de predicción y dispersión para {filename}")
-    graphing.plot_observed_vs_predicted(y_true, y_pred, f'plt_obs_pred_{filename}', output_dir=plot_directory,
+    t_to_date = dict(zip(dataset['t'], dataset['date']))
+    x_dates = [t_to_date.get(ti, pd.NaT) for ti in x]
+    graphing.plot_observed_vs_predicted(x_dates, y_true, y_pred, f'plt_obs_pred_{filename}', output_dir=plot_directory,
                                         title=title, description=descripcion)
     graphing.plot_scatter(y_true, y_pred, f'plt_scatter_{filename}', 'Subexponencial Amortizado', title=title,
                           description=descripcion, output_dir=plot_directory)
