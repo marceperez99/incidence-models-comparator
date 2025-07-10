@@ -15,6 +15,7 @@ def svr_model(dataset, training_window, prediction_window, c, epsilon, return_pr
     dataset = dataset.sort_values(by=['t'])
     dataset = dataset.set_index('t')  # al principio
 
+    if (len(dataset) - training_window - prediction_window + 1) <= 0: return float('inf')
 
     for i in range(len(dataset) - training_window - prediction_window + 1):
 

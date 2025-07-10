@@ -35,6 +35,8 @@ def subexponential_amort_model(dataset, training_window, prediction_window, retu
             dates.append(test_t[-1])
             observed_values.append(np.log(filtered_dataset['target'].to_numpy()[-1] + 1e-8))
 
+    if not len(observed_values):
+        return float('inf')
     if return_predictions:
         return loss_function.loss_function(observed_values, predicted_values), dates, observed_values, predicted_values
 

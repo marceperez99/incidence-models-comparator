@@ -12,12 +12,14 @@ from evaluation import graphing, metrics
 import concurrent.futures
 import os
 
+CONCURRENT = True
 
 def exponential_evaluator(dataset, weeks):
     @functools.cache
     def exponential_evaluation(individual):
         if individual[0] <= 1: return float('inf')
         training_window = individual[0]
+        if training_window >= len(dataset): return float('inf')
         loss = exponential_model(dataset, training_window, weeks)
         return loss
 
@@ -109,8 +111,14 @@ def run_exponential_multiprocess(datasets, weeks):
             f"\n🚩 Procesando dataset {i + 1}/{len(datasets)}: {dataset['name'].iloc[0]} ({dataset['disease'].iloc[0]}, {dataset['classification'].iloc[0]})")
         args_list = [(dataset, i) for i in range(1, weeks + 1)]
 
-        with concurrent.futures.ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
-            series = list(executor.map(run_level_wrapper, args_list))
-            print(f"   🖼️ Graficando predicciones combinadas para {dataset['name'].iloc[0]}")
-            graphing.graficar_predicciones(dataset, series)
+        if CONCURRENT:
+            with concurrent.futures.ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
+                series = list(executor.map(run_level_wrapper, args_list))
+                print(f"   🖼️ Graficando predicciones combinadas para {dataset['name'].iloc[0]}")
+                graphing.graficar_predicciones(dataset, series)
+        else:
+            for i in range(1, weeks + 1):
+                run_level_wrapper([dataset, i])
+
+
     print("\n✅ Finalizó la ejecución de run_exponential.")

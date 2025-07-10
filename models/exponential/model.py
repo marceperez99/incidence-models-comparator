@@ -31,7 +31,10 @@ def exponential_model(dataset, training_window, prediction_window, return_predic
             predicted_values.append(test_y[-1])
             observed_values.append(np.log(filtered_dataset['target'].to_numpy()[-1]))
 
-        # Compute and return the loss function (e.g., MAE)
+    if not len(observed_values):
+        return float('inf')
+
+    # Compute and return the loss function (e.g., MAE)
     if return_predictions:
         return loss_function.loss_function(observed_values, predicted_values), dates, observed_values, predicted_values
 

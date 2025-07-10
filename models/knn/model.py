@@ -40,7 +40,7 @@ def knn_model(dataset, training_window, prediction_window, n_neighbors, return_p
             predicted_values.append(test_y[-1])
             observed_values.append(real_y[-1])
             dates.append(future_t[-1])
-
+    if len(observed_values) <= 0: return float('inf')
     if return_predictions:
         return loss_function.loss_function(observed_values, predicted_values), dates, observed_values, predicted_values
 

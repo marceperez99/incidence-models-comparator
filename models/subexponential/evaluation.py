@@ -18,6 +18,7 @@ def subexponential_evaluator(dataset, weeks):
     def subexponential_evaluation(individual):
         if individual[0] <= 1: return float('inf')
         training_window = individual[0]
+        if training_window >= len(dataset): return float('inf')
         loss = subexponential_model(dataset, training_window, weeks)
         return loss
 

@@ -43,9 +43,6 @@ def main():
 
     # 1. Cargar y preprocesar datos
     full_dataset = get_dataset("data/case_data_full.csv", args.level_names, args.diseases, args.case_types)
-    # dengue_dataset = get_dataset("data/dengue_confirmado_central.csv")
-    # chiku_dataset = get_dataset("data/chikungunya_confirmado_central.csv")
-    print(full_dataset['id_proy'].unique())
 
     full_dataset = [grupo.copy() for _, grupo in full_dataset.groupby('id_proy')]
 

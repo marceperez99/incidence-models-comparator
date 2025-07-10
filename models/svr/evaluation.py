@@ -22,7 +22,7 @@ def svr_evaluator(dataset, weeks):
         c = decode_c(individual[1], NUMBER_OF_BITS)
         epsilon = decode_epsilon(individual[2], NUMBER_OF_BITS)
 
-        if training_window <= 1: return float('inf')
+        if training_window <= 1 or training_window >= len(dataset): return float('inf')
         if c == 0: return float('inf')
 
         loss = svr_model(dataset, training_window, weeks, c, epsilon)
@@ -63,7 +63,9 @@ def run_level(dataset, week_i):
     title = f"Modelo SVR ({dataset['disease'].iloc[0]})"
     descripcion = f'VP:{week_i} semanas, VE: {training_window} semanas, C: {c}, Epsilon: {epsilon}'
     print(f"   📊 Generando gráficos de predicción y dispersión para {filename}")
-    graphing.plot_observed_vs_predicted(y_true, y_pred, f'plt_obs_pred_{filename}',
+    t_to_date = dict(zip(dataset['t'], dataset['date']))
+    x_dates = [t_to_date.get(ti, pd.NaT) for ti in x]
+    graphing.plot_observed_vs_predicted(x_dates, y_true, y_pred, f'plt_obs_pred_{filename}',
                                         output_dir=plot_directory, title=title, description=descripcion)
 
     graphing.plot_scatter(y_true, y_pred, f'plt_scatter_{filename}', 'SVR', title=title,
