@@ -8,19 +8,13 @@ from evaluation import graphing, metrics
 import concurrent.futures
 import os
 import warnings
-
+from constants import LOSS_METRIC
 from utils import get_plot_directory, get_results_directory
 
 warnings.filterwarnings("ignore", category=FutureWarning, module="sklearn")
-
+CONCURRENT = True
 
 def run_level(dataset, week_i):
-    loss, x, y_true, y_pred = autoarima_model(dataset, week_i, return_predictions=True)
-    mae = mean_absolute_error(y_true, y_pred)
-    mape = mean_absolute_percentage_error(y_true, y_pred)
-    rmse = np.sqrt(mean_squared_error(y_true, y_pred))
-    nrmse = rmse / np.mean(y_true)
-
     # saving results
     disease = dataset['disease'].iloc[0].lower()
     level_name = dataset['name'].iloc[0].lower()
@@ -28,6 +22,15 @@ def run_level(dataset, week_i):
     plot_directory = get_plot_directory(disease, level_name, classification, 'autoarima')  # <--- Cambiado aquí
     results_directory = get_results_directory(disease, level_name, classification, 'autoarima')  # <--- Cambiado aquí
     filename = f"{dataset['name'].iloc[0]}_{dataset['classification'].iloc[0]}_{week_i}".lower()
+
+
+    loss, x, y_true, y_pred = autoarima_model(dataset, week_i, return_predictions=True)
+    mae = mean_absolute_error(y_true, y_pred)
+    mape = mean_absolute_percentage_error(y_true, y_pred)
+    rmse = np.sqrt(mean_squared_error(y_true, y_pred))
+    nrmse = rmse / np.mean(y_true)
+
+
 
     save_as_csv(pd.DataFrame({'Observed': y_true, 'Predicted': y_pred}), f'{filename}.csv',
                 output_dir=results_directory)
@@ -51,6 +54,7 @@ def run_level(dataset, week_i):
 
 def run_level_wrapper(args):
     dataset, week = args
+
     x, y_true, y_pred = run_level(dataset, week)
     return [week, x, y_pred]
 
@@ -59,12 +63,29 @@ def run_autoarima(datasets, weeks):
     print(f"\n⚡ Ejecutando en paralelo con {os.cpu_count()} procesos disponibles ({len(datasets)} datasets)...")
 
     for i, dataset in enumerate(datasets):
-        print(
-            f"\n🚩 Procesando dataset {i + 1}/{len(datasets)}: {dataset['name'].iloc[0]} ({dataset['disease'].iloc[0]}, {dataset['classification'].iloc[0]})")
-        args_list = [(dataset, i) for i in range(1, weeks + 1)]
+        try:
+            disease = dataset['disease'].iloc[0].lower()
+            level = dataset['name'].iloc[0].lower()
+            classification = dataset['classification'].iloc[0].lower()
+            directory = f'outputs/plots/{LOSS_METRIC}/autoarima/{disease}/{level}/{classification}/nro_de_casos.png'
+            if os.path.exists(directory):
+                print(f'{dataset["id_proy"].iloc[0]} already calculated')
+                continue
+            print(
+                f"\n🚩 Procesando dataset {i + 1}/{len(datasets)}: {dataset['name'].iloc[0]} ({dataset['disease'].iloc[0]}, {dataset['classification'].iloc[0]})")
 
-        with concurrent.futures.ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
-            series = list(executor.map(run_level_wrapper, args_list))
-            print(f"   🖼️ Graficando predicciones combinadas para {dataset['name'].iloc[0]}")
-            graphing.graficar_predicciones(dataset, series, method="autoarima")
+            if CONCURRENT:
+                args_list = [(dataset, i) for i in range(1, weeks + 1)]
+                with concurrent.futures.ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
+                    series = list(executor.map(run_level_wrapper, args_list))
+                    print(f"   🖼️ Graficando predicciones combinadas para {dataset['name'].iloc[0]}")
+                    graphing.graficar_predicciones(dataset, series, method="autoarima")
+            else:
+                series = []
+                for i in range(1, weeks + 1):
+                    series.append(run_level(dataset, i))
+                graphing.graficar_predicciones(dataset, series, method="autoarima")
+        except Exception as e:
+            print(f'Error en dataset[{i}]:  ', e)
+
     print("\n✅ Finalizó la ejecución de autoarima...")

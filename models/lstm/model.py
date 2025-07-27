@@ -114,8 +114,8 @@ def lstm_model(dataset, training_window, prediction_window, return_predictions=F
         objective="val_loss",
         max_trials=TUNER_MAX_TRIALS,
         executions_per_trial=TUNER_EXECUTIONS,
-        directory=f"{TUNER_DIRECTORY}_{prediction_window}",
-        project_name=TUNER_PROJECT
+        directory=f"{TUNER_DIRECTORY}",
+        project_name=f"{TUNER_PROJECT}_{dataset['id_proy'].iloc[0]}_{prediction_window}",
     )
 
     stop_early = keras.callbacks.EarlyStopping(monitor="val_loss", patience=EARLY_STOP_PATIENCE)

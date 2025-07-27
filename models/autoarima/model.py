@@ -21,6 +21,7 @@ def autoarima_model(dataset, prediction_window, return_predictions=False):
     predictions = []
 
     for t in range(len(test)):
+
         obs = test[t]
 
         if np.isnan(obs):

@@ -2,6 +2,8 @@ import pandas as pd
 
 from sklearn.metrics import mean_absolute_error, mean_squared_error, mean_absolute_percentage_error
 import numpy as np
+
+from constants import LOSS_METRIC
 from evaluation.persist import save_as_csv
 from .model import lstm_model
 from utils import get_plot_directory, get_results_directory
@@ -35,8 +37,11 @@ def run_level(dataset, week):
     title = f"Modelo LSTM ({dataset['disease'].iloc[0]})"
     descripcion = f'VP:{week} semanas VE: {training_window} semanas'
     print(f"   📊 Generando gráficos de predicción y dispersión para {filename}")
-    graphing.plot_observed_vs_predicted(y_true, y_pred, f'plt_obs_pred_{filename}', output_dir=plot_directory,
+    t_to_date = dict(zip(dataset['t'], dataset['date']))
+    x_dates = [t_to_date.get(ti, pd.NaT) for ti in x]
+    graphing.plot_observed_vs_predicted(x_dates, y_true, y_pred, f'plt_obs_pred_{filename}', output_dir=plot_directory,
                                         title=title, description=descripcion)
+
     graphing.plot_scatter(y_true, y_pred, f'plt_scatter_{filename}', 'lstm', title=title,
                           description=descripcion, output_dir=plot_directory)
     print(f"   📝 Log de métricas del modelo para {filename}")
@@ -63,6 +68,13 @@ def run_lstm_multiprocess(datasets, weeks):
     print(f"\n⚡ Ejecutando en paralelo con {os.cpu_count()} procesos disponibles ({len(datasets)} datasets)...")
 
     for i, dataset in enumerate(datasets):
+        disease = dataset['disease'].iloc[0].lower()
+        level = dataset['name'].iloc[0].lower()
+        classification = dataset['classification'].iloc[0].lower()
+        directory = f'outputs/plots/{LOSS_METRIC}/lstm/{disease}/{level}/{classification}/nro_de_casos.png'
+        if os.path.exists(directory):
+            print(f'{dataset["id_proy"].iloc[0]} already calculated')
+            continue
         print(
             f"\n🚩 Procesando dataset {i + 1}/{len(datasets)}: {dataset['name'].iloc[0]} ({dataset['disease'].iloc[0]}, {dataset['classification'].iloc[0]})")
         args_list = [(dataset, i) for i in range(1, weeks + 1)]
